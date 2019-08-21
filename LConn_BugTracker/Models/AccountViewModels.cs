@@ -95,6 +95,7 @@ namespace LConn_BugTracker.Models
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
+        [Required]
         [MaxLength(20, ErrorMessage = "Display Name cannot be greater than 20 characters")]
         [Display(Name = "Display Name")]
         public string DisplayName { get; set; }

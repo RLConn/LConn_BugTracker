@@ -1,5 +1,6 @@
 namespace LConn_BugTracker.Migrations
 {
+    using LConn_BugTracker.Helpers;
     using LConn_BugTracker.Models;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
@@ -56,10 +57,56 @@ namespace LConn_BugTracker.Migrations
                 }, "P@ssw0rd");
             }
 
-            var userId = userManager.FindByEmail("LeeC@mailinator.com").Id;
-            userManager.AddToRole(userId, "Admin");
+            if (!context.Users.Any(u => u.Email == "Submitter@Mailinator.com"))
+            {
+                userManager.Create(new ApplicationUser
+                {
+                    UserName = "Submitter@Mailinator.com",
+                    Email = "Submitter@Mailinator.com",
+                    FirstName = "Sub",
+                    LastName = "Mitter",
+                    DisplayName = "Smit"
+                }, "P@ssw0rd");
+            }
+
+            if (!context.Users.Any(u => u.Email == "Developer@Mailinator.com"))
+            {
+                userManager.Create(new ApplicationUser
+                {
+                    UserName = "Developer@Mailinator.com",
+                    Email = "Developer@Mailinator.com",
+                    FirstName = "Deve",
+                    LastName = "Loper",
+                    DisplayName = "Devel"
+                }, "P@ssw0rd");
+            }
+
+            if (!context.Users.Any(u => u.Email == "ProjectManager@Mailinator.com"))
+            {
+                userManager.Create(new ApplicationUser
+                {
+                    UserName = "ProjectManager@Mailinator.com",
+                    Email = "ProjectManager@Mailinator.com",
+                    FirstName = "Proj",
+                    LastName = "Manag",
+                    DisplayName = "ProMan"
+                }, "P@ssw0rd");
+            }
+
+            var adminId = userManager.FindByEmail("LeeC@mailinator.com").Id;
+            userManager.AddToRole(adminId, "Admin");
+
+            var subId = userManager.FindByEmail("Submitter@mailinator.com").Id;
+            userManager.AddToRole(subId, "Submitter");
+
+            var deveId = userManager.FindByEmail("Developer@mailinator.com").Id;
+            userManager.AddToRole(deveId, "Developer");
+
+            var projId = userManager.FindByEmail("ProjectManager@mailinator.com").Id;
+            userManager.AddToRole(projId, "ProjectManager");
             #endregion
 
+            #region Project Creation
             context.Projects.AddOrUpdate(
                 p => p.Name,
                     new Project { Name = "LConn Blog", Description = "This the Blog Project that is now out in the wilds of the web.", Created = DateTime.Now },
@@ -67,6 +114,33 @@ namespace LConn_BugTracker.Migrations
                     new Project { Name = "LConn BugTracker", Description = "This is the BugTracker Project that is now out in the wilds of the web.", Created = DateTime.Now}
                 );
 
+            context.SaveChanges();
+            #endregion
+
+            #region Project Assignment
+            var blogProjectId = context.Projects.FirstOrDefault(p => p.Name == "LConn Blog").ID;
+            var porfolioProjectId = context.Projects.FirstOrDefault(p => p.Name == "LConn Portfolio").ID;
+            var bugTrackerProjectId = context.Projects.FirstOrDefault(p => p.Name == "LConn Bugtracker").ID;
+
+            var projectHelper = new ProjectsHelper();
+
+            //Assign all three users to the Blog project
+            projectHelper.AddUserToProject(subId, blogProjectId);
+            projectHelper.AddUserToProject(deveId, blogProjectId);
+            projectHelper.AddUserToProject(projId, blogProjectId);
+
+            //Assign all three users to the Portfolio project
+            projectHelper.AddUserToProject(subId, porfolioProjectId);
+            projectHelper.AddUserToProject(deveId, porfolioProjectId);
+            projectHelper.AddUserToProject(projId, porfolioProjectId);
+
+            //Assign all three users to the BugTracker project
+            projectHelper.AddUserToProject(subId, bugTrackerProjectId);
+            projectHelper.AddUserToProject(deveId, bugTrackerProjectId);
+            projectHelper.AddUserToProject(projId, bugTrackerProjectId);
+            #endregion
+
+            #region Priority, Status & Type Creation (required FK's for a Ticket)
             context.TicketPriorities.AddOrUpdate(
                 t => t.Name,
                 new TicketPriority { Name = "Immediate", Description = "Highest priority level requiring immediate action" },
@@ -89,12 +163,15 @@ namespace LConn_BugTracker.Migrations
 
             context.TicketTypes.AddOrUpdate(
                 t => t.Name,
-                new TicketType { Name = "Bug / Defect", Description = "" },
-                new TicketType { Name = "New Functionality Request", Description = "" },
-                new TicketType { Name = "New Documentation Request", Description = "" },
+                new TicketType { Name = "Bug", Description = "" },
+                new TicketType { Name = "Defect", Description = "" },
+                new TicketType { Name = "Feature Request", Description = "" },
+                new TicketType { Name = "Documentation Request", Description = "" },
                 new TicketType { Name = "Training Request", Description = "" },
-                new TicketType { Name = "Complaint", Description = "" }
+                new TicketType { Name = "Complaint", Description = "" },
+                new TicketType { Name = "Other", Description = "" }
                 );
+            #endregion
         }
     }
 }

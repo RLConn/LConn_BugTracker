@@ -6,13 +6,16 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using LConn_BugTracker.Helpers;
 using LConn_BugTracker.Models;
+using Microsoft.AspNet.Identity;
 
 namespace LConn_BugTracker.Controllers
 {
     public class TicketsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private ProjectsHelper projectHelper = new ProjectsHelper();
 
         // GET: Tickets
         public ActionResult Index()
@@ -37,13 +40,12 @@ namespace LConn_BugTracker.Controllers
         }
 
         // GET: Tickets/Create
+        [Authorize(Roles = "Submitter")]
         public ActionResult Create()
         {
-            ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName");
-            ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName");
-            ViewBag.ProjectId = new SelectList(db.Projects, "ID", "Name");
+            var myProjects = projectHelper.ListUserProjects(User.Identity.GetUserId());
+            ViewBag.ProjectId = new SelectList(myProjects, "ID", "Name");
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name");
-            ViewBag.TicketStatusId = new SelectList(db.TicketStatuses, "Id", "Name");
             ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name");
             return View();
         }
@@ -53,25 +55,27 @@ namespace LConn_BugTracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,ProjectId,TicketTypeId,TicketStatusId,TicketPriorityId,OwnerUserId,AssignedToUserId,Title,Description,Created,Updated")] Ticket ticket)
+        public ActionResult Create([Bind(Include = "ProjectId,TicketTypeId,TicketPriorityId,Title,Description")] Ticket ticket)
         {
             if (ModelState.IsValid)
             {
+                ticket.Created = DateTime.Now;
+                ticket.OwnerUserId = User.Identity.GetUserId();
+                //We are setting the default status Id to New Unassigned
+                ticket.TicketStatusId = db.TicketStatuses.FirstOrDefault(t => t.Name == "New / Unassigned").Id;
                 db.Tickets.Add(ticket);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignedToUserId);
-            ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName", ticket.OwnerUserId);
-            ViewBag.ProjectId = new SelectList(db.Projects, "ID", "Name", ticket.ProjectId);
-            ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
-            ViewBag.TicketStatusId = new SelectList(db.TicketStatuses, "Id", "Name", ticket.TicketStatusId);
-            ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name", ticket.TicketTypeId);
-            return View(ticket);
+            ViewBag.ProjectId = new SelectList(db.Projects, "ID", "Name");
+            ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name");
+            ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name");
+            return View();
         }
 
         // GET: Tickets/Edit/5
+        [Authorize]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -79,10 +83,12 @@ namespace LConn_BugTracker.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Ticket ticket = db.Tickets.Find(id);
+
             if (ticket == null)
             {
                 return HttpNotFound();
             }
+            
             ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignedToUserId);
             ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName", ticket.OwnerUserId);
             ViewBag.ProjectId = new SelectList(db.Projects, "ID", "Name", ticket.ProjectId);

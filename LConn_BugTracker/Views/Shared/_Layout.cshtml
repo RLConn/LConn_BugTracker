@@ -162,7 +162,7 @@
                     <li class="nav-item nav-profile dropdown">
                         <a class="nav-link dropdown-toggle  pl-0 pr-0" href="#" data-toggle="dropdown" id="profileDropdown">
                             <i class="typcn typcn-user-outline mr-0"></i>
-                            <span class="nav-profile-name">@user.FullerName</span>
+                            <span class="nav-profile-name">@user.DisplayName</span>
                             <span class="role">, @user.Email</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
@@ -247,57 +247,68 @@
                             <span class="menu-title">Dashboard </span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#admin" aria-expanded="false" aria-controls="admin">
-                            <i class="typcn typcn-user menu-icon"></i>
-                            <span class="menu-title">Administrator</span>
-                            <i class="typcn typcn-chevron-right menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="admin">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("ManageProjects","Admin")">Manage Projects</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("ManageRoles","Admin")">Manage Roles</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("ManageUserProjects","Admin")">Manage User Projects</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("ManagerUserRole","Admin")">Manage User Role</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("ManageUsers","Admin")">Manage Users</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("UserIndex","Admin")">User Index</a></li>
-                            </ul>
-                        </div>
-                    </li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="collapse" href="#admin" aria-expanded="false" aria-controls="admin">
+                                <i class="typcn typcn-user menu-icon"></i>
+                                <span class="menu-title">Administrator</span>
+                                <i class="typcn typcn-chevron-right menu-arrow"></i>
+                            </a>
+                            <div class="collapse" id="admin">
+                                <ul class="nav flex-column sub-menu">
+                                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("UserIndex","Admin")">User Index</a></li>
+                                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("ManageUsers","Admin")">Manage Users</a></li>
+                                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("ManagerUserRole","Admin")">Manage User Role</a></li>
+                                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("ManageRoles","Admin")">Manage Roles</a></li>
+                                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index","Projects")">Manage Projects</a></li>
+                                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("ManageUserProjects","Admin")">Manage User Projects</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    }
+                    @if (User.IsInRole("Submitter"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Create", "Tickets")">
+                                <i class="typcn typcn-ticket menu-icon"></i>
+                                <span class="menu-title">Create Ticket</span>
+                            </a>
+                        </li>
+                    }
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#ticks" aria-expanded="false" aria-controls="ticks">
-                            <i class="typcn typcn-user menu-icon"></i>
-                            <span class="menu-title">Tickets</span>
+                            <i class="typcn typcn-ticket menu-icon"></i>
+                            <span class="menu-title">Ticket Management</span>
                             <i class="typcn typcn-chevron-right menu-arrow"></i>
                         </a>
                         <div class="collapse" id="ticks">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("Create","Tickets")">Create Tickets</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("Delete","Tickets")">Delete Tickets</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index","Tickets")">Ticket Index</a></li>
                                 <li class="nav-item"> <a class="nav-link" href="@Url.Action("Details","Tickets")">Ticket Details</a></li>
                                 <li class="nav-item"> <a class="nav-link" href="@Url.Action("Edit","Tickets")">Edit Tickets</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index","Tickets")">Ticket Index</a></li>
                             </ul>
                         </div>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="typcn typcn-archive menu-icon"></i>
-                            <span class="menu-title">Project Managers</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="typcn typcn-archive menu-icon"></i>
-                            <span class="menu-title">Developers</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="typcn typcn-archive menu-icon"></i>
-                            <span class="menu-title">Submitters</span>
-                        </a>
-                    </li>
+                    @if (User.IsInRole("ProjectManager"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="typcn typcn-user menu-icon"></i>
+                                <span class="menu-title">Project Managers</span>
+                            </a>
+                        </li>
+                    }
+
+                    @if (User.IsInRole("Developer"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="typcn typcn-user menu-icon"></i>
+                                <span class="menu-title">Developers</span>
+                            </a>
+                        </li>
+                    }
                 </ul>
                 <ul class="sidebar-legend">
                     <li>
@@ -337,6 +348,7 @@
     <!-- End plugin js for this page -->
     <!-- Custom js for this page-->
     <script src="~/Scripts/dashboard.js"></script>
+
     <!-- End custom js for this page-->
 </body>
 
