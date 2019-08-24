@@ -14,6 +14,7 @@ namespace LConn_BugTracker.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
+            ContextKey = "LConn_BugTracker.Models.ApplicationDbContext";
         }
 
         protected override void Seed(LConn_BugTracker.Models.ApplicationDbContext context)
@@ -42,7 +43,7 @@ namespace LConn_BugTracker.Migrations
             }
             #endregion
 
-            #region User Generation
+            #region User Creation
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
 
             if (!context.Users.Any(u => u.Email == "LeeC@Mailinator.com"))
@@ -53,7 +54,8 @@ namespace LConn_BugTracker.Migrations
                     Email = "LeeC@Mailinator.com",
                     FirstName = "Lee",
                     LastName = "Connelly",
-                    DisplayName = "The LC"
+                    DisplayName = "The LC",
+                    AvatarUrl = "/Avatars/Another pic (2).jpg"
                 }, "P@ssw0rd");
             }
 
@@ -65,7 +67,8 @@ namespace LConn_BugTracker.Migrations
                     Email = "Submitter@Mailinator.com",
                     FirstName = "Sub",
                     LastName = "Mitter",
-                    DisplayName = "Smit"
+                    DisplayName = "Smit",
+                    AvatarUrl = "/Avatars/defaultavatar.jpg"
                 }, "P@ssw0rd");
             }
 
@@ -77,7 +80,8 @@ namespace LConn_BugTracker.Migrations
                     Email = "Developer@Mailinator.com",
                     FirstName = "Deve",
                     LastName = "Loper",
-                    DisplayName = "Devel"
+                    DisplayName = "Devel",
+                    AvatarUrl = "/Avatars/defaultavatar.jpg"
                 }, "P@ssw0rd");
             }
 
@@ -89,10 +93,13 @@ namespace LConn_BugTracker.Migrations
                     Email = "ProjectManager@Mailinator.com",
                     FirstName = "Proj",
                     LastName = "Manag",
-                    DisplayName = "ProMan"
+                    DisplayName = "ProMan",
+                    AvatarUrl = "/Avatars/defaultavatar.jpg"
                 }, "P@ssw0rd");
             }
+            #endregion
 
+            #region Role Assignment
             var adminId = userManager.FindByEmail("LeeC@mailinator.com").Id;
             userManager.AddToRole(adminId, "Admin");
 
@@ -118,9 +125,9 @@ namespace LConn_BugTracker.Migrations
             #endregion
 
             #region Project Assignment
-            var blogProjectId = context.Projects.FirstOrDefault(p => p.Name == "LConn Blog").ID;
-            var porfolioProjectId = context.Projects.FirstOrDefault(p => p.Name == "LConn Portfolio").ID;
-            var bugTrackerProjectId = context.Projects.FirstOrDefault(p => p.Name == "LConn Bugtracker").ID;
+            var blogProjectId = context.Projects.FirstOrDefault(p => p.Name == "LConn Blog").Id;
+            var porfolioProjectId = context.Projects.FirstOrDefault(p => p.Name == "LConn Portfolio").Id;
+            var bugTrackerProjectId = context.Projects.FirstOrDefault(p => p.Name == "LConn Bugtracker").Id;
 
             var projectHelper = new ProjectsHelper();
 
@@ -163,14 +170,99 @@ namespace LConn_BugTracker.Migrations
 
             context.TicketTypes.AddOrUpdate(
                 t => t.Name,
-                new TicketType { Name = "Bug", Description = "" },
-                new TicketType { Name = "Defect", Description = "" },
-                new TicketType { Name = "Feature Request", Description = "" },
-                new TicketType { Name = "Documentation Request", Description = "" },
-                new TicketType { Name = "Training Request", Description = "" },
-                new TicketType { Name = "Complaint", Description = "" },
-                new TicketType { Name = "Other", Description = "" }
+                new TicketType { Name = "Bug", Description = "An error has occurred that resulted in either the application crashing or the user seeing error information" },
+                new TicketType { Name = "Defect", Description = "An error has occurred that resulted in either a miscalculation or an incorrect workflow" },
+                new TicketType { Name = "Feature Request", Description = "A client has called in asking for some new functionality in an existing application" },
+                new TicketType { Name = "Documentation Request", Description = "A client has called in asking for new documentation to be created for the existing application" },
+                new TicketType { Name = "Training Request", Description = "A client has called in asking to schedule a training session" },
+                new TicketType { Name = "Complaint", Description = "A client has called in to make a general complaint about our application" },
+                new TicketType { Name = "Other", Description = "A call has been received that requires follow up but is outside the usual parameters for a request" }
                 );
+
+            context.SaveChanges();
+            #endregion
+
+            #region Ticket Creation
+            context.Tickets.AddOrUpdate(
+                p => p.Title,
+                //1 unassigned Bug on the Blog Project
+                //1 assigned Defect on the Blog Project
+                new Ticket
+                {
+                    ProjectId = blogProjectId,
+                    OwnerUserId = subId,
+                    Title = "Seeded Ticket #1",
+                    Description = "Testing a seeded Ticket",
+                    Created = DateTime.Now,
+                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New / UnAssigned").Id,
+                    TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Bug").Id,
+                },
+                new Ticket
+                {
+                    ProjectId = blogProjectId,
+                    OwnerUserId = subId,
+                    AssignedToUserId = deveId,
+                    Title = "Seeded Ticket #2",
+                    Description = "Testing a seeded Ticket",
+                    Created = DateTime.Now,
+                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New / Assigned").Id,
+                    TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Defect").Id,
+                },
+
+                //1 unassigned Bug on the Portfolio Project
+                //1 assigned Defect on the Portfolio Project
+                new Ticket
+                {
+                    ProjectId = porfolioProjectId,
+                    OwnerUserId = subId,
+                    Title = "Seeded Ticket #3",
+                    Description = "Testing a seeded Ticket",
+                    Created = DateTime.Now,
+                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New / UnAssigned").Id,
+                    TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Bug").Id,
+                },
+                new Ticket
+                {
+                    ProjectId = porfolioProjectId,
+                    OwnerUserId = subId,
+                    AssignedToUserId = deveId,
+                    Title = "Seeded Ticket #4",
+                    Description = "Testing a seeded Ticket",
+                    Created = DateTime.Now,
+                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New / Assigned").Id,
+                    TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Defect").Id,
+                },
+
+                //1 unassigned Bug on the BugTracker
+                //1 assigned Defect on the BugTracker
+                new Ticket
+                {
+                    ProjectId = bugTrackerProjectId,
+                    OwnerUserId = subId,
+                    Title = "Seeded Ticket #5",
+                    Description = "Testing a seeded Ticket",
+                    Created = DateTime.Now,
+                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New / UnAssigned").Id,
+                    TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Bug").Id,
+                },
+                new Ticket
+                {
+                    ProjectId = bugTrackerProjectId,
+                    OwnerUserId = subId,
+                    AssignedToUserId = deveId,
+                    Title = "Seeded Ticket #6",
+                    Description = "Testing a seeded Ticket",
+                    Created = DateTime.Now,
+                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New / Assigned").Id,
+                    TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Defect").Id,
+                });
+            context.SaveChanges();
             #endregion
         }
     }

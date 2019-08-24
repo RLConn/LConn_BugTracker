@@ -8,19 +8,19 @@ namespace LConn_BugTracker.Helpers
 {
     public class TicketHelper : CommonHelper
     {
-        public static List<Ticket>GetTicketsByPriority(string name)
+        public List<Ticket>GetTicketsByPriority(string name)
         {
-            return db.Tickets.Where(t => t.TicketPriority.Name == name).ToList();
+            return Db.Tickets.Where(t => t.TicketPriority.Name == name).ToList();
         }
 
-        public static List<Ticket> GetTicketsByStatus(string name)
+        public List<Ticket> GetTicketsByStatus(string name)
         {
-            return db.Tickets.Where(t => t.TicketStatus.Name == name).ToList();
+            return Db.Tickets.Where(t => t.TicketStatus.Name == name).ToList();
         }
 
-        public static List<Ticket> GetTicketsByType(string name)
+        public List<Ticket> GetTicketsByType(string name)
         {
-            return db.Tickets.Where(t => t.TicketType.Name == name).ToList();
+            return Db.Tickets.Where(t => t.TicketType.Name == name).ToList();
         }
     }
 }

@@ -1,12 +1,12 @@
-﻿@model IEnumerable<LConn_BugTracker.Models.Ticket>
+﻿@using LConn_BugTracker.Helpers
+@model IEnumerable<LConn_BugTracker.Models.Ticket>
 
-<!DOCTYPE html>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
+@{ 
+    ViewBag.Title = "Index";
+    var linkHelper = new LinkHelper();
+}
+
 <body>
     <p>
         @Html.ActionLink("Create New", "Create")
@@ -79,12 +79,17 @@
                 @Html.DisplayFor(modelItem => item.Updated)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-                @Html.ActionLink("Details", "Details", new { id=item.ID }) 
+                @if (linkHelper.UserCanEditTicket(item))
+                {
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ID })
+                }
+
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) 
+                
             </td>
         </tr>
     }
     
     </table>
 </body>
-</html>
+

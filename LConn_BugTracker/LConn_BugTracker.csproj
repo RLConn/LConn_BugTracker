@@ -191,6 +191,7 @@
     </Compile>
     <Compile Include="Helpers\CommonHelper.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />
+    <Compile Include="Helpers\LinkHelper.cs" />
     <Compile Include="Helpers\ProjectsHelper.cs" />
     <Compile Include="Helpers\SeedHelper.cs" />
     <Compile Include="Helpers\TicketHelper.cs" />
@@ -220,7 +221,7 @@
     <Content Include="Content\vendor.bundle.base.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Images\defaultavatar.jpg" />
+    <Content Include="Avatars\defaultavatar.jpg" />
     <Content Include="Images\favicon-96x96.png" />
     <Content Include="Images\favicon.png" />
     <Content Include="Images\LC_BT Logo %283%29.png" />
@@ -328,7 +329,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Avatars\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

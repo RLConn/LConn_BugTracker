@@ -8,7 +8,7 @@ using System.Web;
 
 namespace LConn_BugTracker.Helpers
 {
-    public class UserRolesHelper : CommonHelper
+    public class UserRolesHelper
     {
         private UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
 
@@ -17,20 +17,24 @@ namespace LConn_BugTracker.Helpers
         {
             return userManager.IsInRole(userId, roleName);
         }
+
         public ICollection<string> ListUserRoles(string userId)
         {
             return userManager.GetRoles(userId);
         }
+
         public bool AddUserToRole(string userId, string roleName)
         {
             var result = userManager.AddToRole(userId, roleName);
             return result.Succeeded;
         }
+
         public bool RemoveUserFromRole(string userId, string roleName)
         {
             var result = userManager.RemoveFromRole(userId, roleName);
             return result.Succeeded;
         }
+
         public ICollection<ApplicationUser> UsersInRole(string roleName)
         {
             var resultList = new List<ApplicationUser>();

@@ -11,6 +11,7 @@ using LConn_BugTracker.Models;
 
 namespace LConn_BugTracker.Controllers
 {
+    [Authorize]
     public class ProjectsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -40,16 +41,16 @@ namespace LConn_BugTracker.Controllers
             //KEEP AN EYE OUT FOR 'MAGIC STRINGS' THROUGHOUT YOUR APPLICATION...
             //MAGIC STRINGS ARE HARD CODED STRINGS THAT SHOULD BE HANDELED DIFFERENTLY...
             var allProjectManagers = roleHelper.UsersInRole("ProjectManager");
-            var currentProjectManagers = projectHelper.UsersInRoleOnProject(project.ID, "ProjectManager");
-            ViewBag.ProjectManagers = new MultiSelectList(allProjectManagers, "Id", "FullerName", currentProjectManagers);
+            var currentProjectManagers = projectHelper.UsersInRoleOnProject(project.Id, "ProjectManager");
+            ViewBag.ProjectManagers = new MultiSelectList(allProjectManagers, "Id", "DisplayName", currentProjectManagers);
 
             var allSubmitters = roleHelper.UsersInRole("Submitter");
-            var currentSubmitters = projectHelper.UsersInRoleOnProject(project.ID, "Submitter");
-            ViewBag.Submitters = new MultiSelectList(allSubmitters, "Id", "FullerName", currentSubmitters);
+            var currentSubmitters = projectHelper.UsersInRoleOnProject(project.Id, "Submitter");
+            ViewBag.Submitters = new MultiSelectList(allSubmitters, "Id", "DisplayName", currentSubmitters);
 
             var allDevelopers = roleHelper.UsersInRole("Developer");
-            var currentDevelopers = projectHelper.UsersInRoleOnProject(project.ID, "Developer");
-            ViewBag.Developers = new MultiSelectList(allDevelopers, "Id", "FullerName", currentDevelopers);
+            var currentDevelopers = projectHelper.UsersInRoleOnProject(project.Id, "Developer");
+            ViewBag.Developers = new MultiSelectList(allDevelopers, "Id", "DisplayName", currentDevelopers);
 
             return View(project);
         }

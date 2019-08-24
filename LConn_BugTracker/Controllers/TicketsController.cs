@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity;
 
 namespace LConn_BugTracker.Controllers
 {
+    [Authorize]
     public class TicketsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

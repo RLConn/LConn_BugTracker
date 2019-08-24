@@ -35,7 +35,7 @@
         </dl>
     </div>
     <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.ID}) |
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id}) |
         @Html.ActionLink("Back to List", "Index")
     </p>
 
@@ -45,7 +45,7 @@
 @using (Html.BeginForm("ManageProjectUsers", "Admin", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
-    @Html.Hidden("ProjectId",Model.ID)
+    @Html.Hidden("ProjectId",Model.Id)
 
     <div class="row">
         <div class="col-md-4 text-center">

@@ -7,7 +7,7 @@ namespace LConn_BugTracker.Models
 {
     public class Project
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public DateTime Created { get; set; }

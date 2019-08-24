@@ -7,7 +7,7 @@ namespace LConn_BugTracker.Models
 {
     public class Ticket
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
         public int ProjectId { get; set; }
         public int TicketTypeId {get ; set; }
         public int TicketStatusId { get; set; }

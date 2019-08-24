@@ -10,6 +10,7 @@ using LConn_BugTracker.Models;
 
 namespace LConn_BugTracker.Controllers
 {
+    [Authorize]
     public class TicketNotificationsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

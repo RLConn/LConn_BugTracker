@@ -110,7 +110,7 @@ namespace LConn_BugTracker.Controllers
 
         public ActionResult ManageUserProjects(string userId)
         {
-            var myProjects = projectHelper.ListUserProjects(userId).Select(p => p.ID);
+            var myProjects = projectHelper.ListUserProjects(userId).Select(p => p.Id);
             ViewBag.Projects = new MultiSelectList(db.Projects.ToList(), "Id", "Name", myProjects);
             return View();
         }
@@ -121,7 +121,7 @@ namespace LConn_BugTracker.Controllers
         {
             foreach (var project in projectHelper.ListUserProjects(userId).ToList())
             {
-                projectHelper.RemoveUserFromProject(userId, project.ID);
+                projectHelper.RemoveUserFromProject(userId, project.Id);
             }
 
             if (projects != null)
