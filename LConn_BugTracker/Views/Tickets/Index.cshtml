@@ -2,94 +2,123 @@
 @model IEnumerable<LConn_BugTracker.Models.Ticket>
 
 
-@{ 
+
+@{
     ViewBag.Title = "Index";
     var linkHelper = new LinkHelper();
 }
 
-<body>
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayName("Developer")
-            </th>
-            <th>
-                @Html.DisplayName("Submitter")
-            </th>
-            <th>
-                @Html.DisplayName("Project")
-            </th>
-            <th>
-                @Html.DisplayName("Priority")
-            </th>
-            <th>
-                @Html.DisplayName("Status")
-            </th>
-            <th>
-                @Html.DisplayName("Type")
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Created)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Updated)
-            </th>
-            <th></th>
-        </tr>
-    
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.AssignedToUser.DisplayName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OwnerUser.DisplayName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Project.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TicketPriority.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TicketStatus.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TicketType.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Created)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Updated)
-            </td>
-            <td>
-                @if (linkHelper.UserCanEditTicket(item))
-                {
-                    @Html.ActionLink("Edit", "Edit", new { id = item.ID })
-                }
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Ticket Index</h4>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="table-responsive">
+                            <div id="order-listing_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
+                                <div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="order-listing_length"><label>Show <select name="order-listing_length" aria-controls="order-listing" class="form-control"><option value="5">5</option><option value="10">10</option><option value="15">15</option><option value="-1">All</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="order-listing_filter" class="dataTables_filter"><label><input type="search" class="form-control" placeholder="Search" aria-controls="order-listing"></label></div></div></div><div class="row">
+                                    <div class="col-sm-12">
+                                        <table id="order-listing" class="table dataTable table-striped" role="grid" aria-describedby="order-listing_info">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        @Html.DisplayName("Developer")
+                                                    </th>
+                                                    <th>
+                                                        @Html.DisplayName("Submitter")
+                                                    </th>
+                                                    <th>
+                                                        @Html.DisplayName("Project")
+                                                    </th>
+                                                    <th>
+                                                        @Html.DisplayName("Priority")
+                                                    </th>
+                                                    <th>
+                                                        @Html.DisplayName("Status")
+                                                    </th>
+                                                    <th>
+                                                        @Html.DisplayName("Type")
+                                                    </th>
+                                                    <th>
+                                                        @Html.DisplayNameFor(model => model.Title)
+                                                    </th>
+                                                    <th>
+                                                        @Html.DisplayNameFor(model => model.Description)
+                                                    </th>
+                                                    <th>
+                                                        @Html.DisplayNameFor(model => model.Created)
+                                                    </th>
+                                                    <th>
+                                                        @Html.DisplayNameFor(model => model.Updated)
+                                                    </th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.AssignedToUser.DisplayName)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.OwnerUser.DisplayName)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.Project.Name)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.TicketPriority.Name)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.TicketStatus.Name)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.TicketType.Name)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.Title)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.Description)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.Created)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.Updated)
+                                                        </td>
+                                                        <td>
+                                                            @if (linkHelper.UserCanEditTicket(item))
+                                                            {
+                                                                @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                                                            }
 
-                @Html.ActionLink("Details", "Details", new { id = item.ID }) 
-                
-            </td>
-        </tr>
-    }
-    
-    </table>
-</body>
+                                                            @Html.ActionLink("Details", "Details", new { id = item.Id })
 
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="order-listing_info" role="status" aria-live="polite">Showing 1 to 10 of 10 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="order-listing_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="order-listing_previous"><a href="#" aria-controls="order-listing" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="order-listing" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item next disabled" id="order-listing_next"><a href="#" aria-controls="order-listing" data-dt-idx="2" tabindex="0" class="page-link">Next</a></li></ul></div></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- content-wrapper ends -->
+    <script src="~/DataTables/Buttons-1.5.6/js/buttons.html5.min.js"></script>
+    <!-- partial:../../partials/_footer.html -->
+    <footer class="footer">
+        <div class="d-sm-flex justify-content-center justify-content-sm-between">
+            <span class="text-center text-sm-left d-block d-sm-inline-block">Copyright © 2018 <a href="https://www.urbanui.com/" target="_blank">Urbanui</a>. All rights reserved.</span>
+            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted &amp; made with <i class="typcn typcn-heart text-danger"></i></span>
+        </div>
+    </footer>
+    <!-- partial -->
+</div>

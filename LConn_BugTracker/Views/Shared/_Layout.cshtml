@@ -267,15 +267,25 @@
                             </div>
                         </li>
                     }
-                    @if (User.IsInRole("Submitter"))
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("Create", "Tickets")">
-                                <i class="typcn typcn-ticket menu-icon"></i>
-                                <span class="menu-title">Create Ticket</span>
-                            </a>
-                        </li>
-                    }
+
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#projs" aria-expanded="false" aria-controls="projs">
+                            <i class="typcn typcn-news menu-icon"></i>
+                            <span class="menu-title">Projects</span>
+                            <i class="typcn typcn-chevron-right menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="projs">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index","Projects")">Project Index</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("ManageUsers","Admin")">Manage Users</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("ManagerUserRole","Admin")">Manage User Role</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("ManageRoles","Admin")">Manage Roles</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index","Projects")">Manage Projects</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("ManageUserProjects","Admin")">Manage User Projects</a></li>
+                            </ul>
+                        </div>
+                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#ticks" aria-expanded="false" aria-controls="ticks">
                             <i class="typcn typcn-ticket menu-icon"></i>
@@ -284,9 +294,21 @@
                         </a>
                         <div class="collapse" id="ticks">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index","Tickets")">Ticket Index</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("Details","Tickets")">Ticket Details</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("Edit","Tickets")">Edit Tickets</a></li>
+                                @if (User.IsInRole("Submitter"))
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="@Url.Action("Create", "Tickets")">
+                                            <i class="typcn typcn-ticket menu-icon"></i>
+                                            <span class="menu-title">Create Ticket</span>
+                                        </a>
+                                    </li>
+                                }
+                                <li class="nav-item">
+                                    <a class="nav-link" href="@Url.Action("Index","Tickets")">
+                                        <i class="typcn typcn-ticket menu-icon"></i>
+                                        <span class="menu-title">Ticket Index</span>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </li>
@@ -348,7 +370,6 @@
     <!-- End plugin js for this page -->
     <!-- Custom js for this page-->
     <script src="~/Scripts/dashboard.js"></script>
-
     <!-- End custom js for this page-->
 </body>
 
