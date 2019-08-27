@@ -3,101 +3,108 @@
 
 <!DOCTYPE html>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Details</title>
-</head>
-<body>
-    <div>
-        <h4>Ticket</h4>
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.AssignedToUser.FirstName)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.AssignedToUser.FirstName)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.OwnerUser.FirstName)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.OwnerUser.FirstName)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Project.Name)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Project.Name)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.TicketPriority.Name)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.TicketPriority.Name)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.TicketStatus.Name)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.TicketStatus.Name)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.TicketType.Name)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.TicketType.Name)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Title)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Title)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Description)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Description)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Created)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Created)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Updated)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Updated)
-            </dd>
-    
-        </dl>
-    </div>
-    <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-        @Html.ActionLink("Back to List", "Index")
-    </p>
-</body>
-</html>
+
+
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="row">
+            
+            
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Ticket Details</h4>
+                        <p class="card-description">
+                            Details
+                        </p>
+                        <form class="forms-sample">
+                            <div class="form-group">
+                                @Html.DisplayFor(model => model.AssignedToUser.FirstName)
+                            </div>
+                            <div>
+                                @Html.DisplayNameFor(model => model.AssignedToUser.FirstName)
+                            </div>
+                            <br />
+                            <div class="form-group">
+                                @Html.DisplayNameFor(model => model.OwnerUser.FirstName)
+                            </div>
+                            <div>
+                                @Html.DisplayFor(model => model.OwnerUser.FirstName)
+                            </div>
+                            <br />
+                            <div class="form-group">
+                                @Html.DisplayFor(model => model.Project.Name)
+                            </div>
+                            <div>
+                                @Html.DisplayNameFor(model => model.Project.Name)
+                            </div>
+                            <br />
+                            <div class="form-group">
+                                @Html.DisplayNameFor(model => model.TicketPriority.Name)
+                            </div>
+                            <div>
+                                @Html.DisplayFor(model => model.TicketPriority.Name)
+                            </div>
+                            <br />
+                            <div class="form-group">
+                                @Html.DisplayNameFor(model => model.TicketStatus.Name)
+                            </div>
+                            <div>
+                                @Html.DisplayFor(model => model.TicketStatus.Name)
+                            </div>
+                            <br />
+                            <div class="form-group">
+                                @Html.DisplayNameFor(model => model.TicketType.Name)
+                            </div>
+                            <div>
+                                @Html.DisplayFor(model => model.TicketType.Name)
+                            </div>
+                            <br />
+                            <div class="form-group">
+                                @Html.DisplayNameFor(model => model.Title)
+                            </div>
+                            <div>
+                                @Html.DisplayFor(model => model.Title)
+                            </div>
+                            <br />
+                            <div class="form-group">
+                                @Html.DisplayNameFor(model => model.Description)
+                            </div>
+                            <div>
+                                @Html.DisplayFor(model => model.Description)
+                            </div>
+                            <br />
+                            <div class="form-group">
+                                @Html.DisplayNameFor(model => model.Created)
+                            </div>
+                            <div>
+                                @Html.DisplayFor(model => model.Created)
+                            </div>
+                            <br />
+                            <div class="form-group">
+                                @Html.DisplayNameFor(model => model.Updated)
+                            </div>
+                            <div>
+                                @Html.DisplayFor(model => model.Updated)
+                            </div>
+
+                        </form>
+                    </div>
+                    <p>
+                        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+                        @Html.ActionLink("Back to List", "Index")
+                    </p>
+                </div>
+            </div>
+         </div>
+    </div>    
+    <!-- content-wrapper ends -->
+    <!-- partial:../../partials/_footer.html -->
+    <footer class="footer">
+        <div class="d-sm-flex justify-content-center justify-content-sm-between">
+            <span class="text-center text-sm-left d-block d-sm-inline-block">Copyright © 2019. All rights reserved.</span>
+            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted &amp; made with <i class="typcn typcn-heart text-danger"></i></span>
+        </div>
+    </footer>
+    <!-- partial -->
+</div>

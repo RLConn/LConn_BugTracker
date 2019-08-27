@@ -294,19 +294,25 @@
                         </a>
                         <div class="collapse" id="ticks">
                             <ul class="nav flex-column sub-menu">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="@Url.Action("Index","Tickets")">
+                                        <i class="typcn typcn-ticket menu-icon"></i>
+                                        <span class="menu-title">Ticket List</span>
+                                    </a>
+                                </li>
                                 @if (User.IsInRole("Submitter"))
                                 {
                                     <li class="nav-item">
                                         <a class="nav-link" href="@Url.Action("Create", "Tickets")">
                                             <i class="typcn typcn-ticket menu-icon"></i>
-                                            <span class="menu-title">Create Ticket</span>
+                                            <span class="menu-title">Create a Ticket</span>
                                         </a>
                                     </li>
                                 }
                                 <li class="nav-item">
-                                    <a class="nav-link" href="@Url.Action("Index","Tickets")">
+                                    <a class="nav-link" href="@Url.Action("Index","TicketAttachments")">
                                         <i class="typcn typcn-ticket menu-icon"></i>
-                                        <span class="menu-title">Ticket Index</span>
+                                        <span class="menu-title">Ticket Attachments</span>
                                     </a>
                                 </li>
                             </ul>
