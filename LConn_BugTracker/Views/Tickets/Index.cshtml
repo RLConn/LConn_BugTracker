@@ -5,7 +5,7 @@
 
 @{
     ViewBag.Title = "Index";
-    var linkHelper = new LinkHelper();
+    var ticketDecisionHelper = new TicketDecisionHelper();
 }
 
 <div class="main-panel">
@@ -90,13 +90,12 @@
                                                             @Html.DisplayFor(modelItem => item.Updated)
                                                         </td>
                                                         <td>
-                                                            @if (linkHelper.UserCanEditTicket(item))
+                                                            @if (ticketDecisionHelper.Equals(TicketDecisionHelper.TicketIsEditableByUser (item)))
                                                             {
                                                                 @Html.ActionLink("Edit", "Edit", new { id = item.Id })
                                                             }
 
                                                             @Html.ActionLink("Details", "Details", new { id = item.Id })
-                                                            @Html.ActionLink("Add Attachment", "TicketAttachments", new { id = item.Id })
 
                                                         </td>
                                                     </tr>
@@ -123,3 +122,19 @@
     </footer>
     <!-- partial -->
 </div>
+
+@section scripts{
+    <script>
+        var msg = '@TempData["Message"]';
+        if (msg != "")
+        {
+            Swal.fire({
+                type: 'error',
+                title: 'Sorry...',
+                text: msg
+            })
+
+        }
+    </script>
+    
+    }

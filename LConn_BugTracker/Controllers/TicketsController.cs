@@ -76,7 +76,8 @@ namespace LConn_BugTracker.Controllers
         }
 
         // GET: Tickets/Edit/5
-        [Authorize]
+        //[Authorize]
+        [Authorize(Roles = "Developer, Submitter, ProjectManager, Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -89,9 +90,14 @@ namespace LConn_BugTracker.Controllers
             {
                 return HttpNotFound();
             }
+
+            if (!TicketDecisionHelper.TicketIsEditableByUser(ticket))
+            {
+                TempData["Message"] = "You are not authorized to edit Ticket Id " + ticket.Id + " based upon your assigned role.";
+                return RedirectToAction("Index", "Tickets");
+            }
             
             ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignedToUserId);
-            ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName", ticket.OwnerUserId);
             ViewBag.ProjectId = new SelectList(db.Projects, "ID", "Name", ticket.ProjectId);
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
             ViewBag.TicketStatusId = new SelectList(db.TicketStatuses, "Id", "Name", ticket.TicketStatusId);

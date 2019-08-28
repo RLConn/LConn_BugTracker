@@ -186,14 +186,14 @@
     <Compile Include="Controllers\TicketsController.cs" />
     <Compile Include="Controllers\TicketStatusController.cs" />
     <Compile Include="Controllers\TicketTypesController.cs" />
+    <Compile Include="Enumerations\SystemRole.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\CommonHelper.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />
-    <Compile Include="Helpers\LinkHelper.cs" />
     <Compile Include="Helpers\ProjectsHelper.cs" />
-    <Compile Include="Helpers\SeedHelper.cs" />
+    <Compile Include="Helpers\TicketDecisionHelper.cs" />
     <Compile Include="Helpers\TicketHelper.cs" />
     <Compile Include="Helpers\UserRolesHelper.cs" />
     <Compile Include="Migrations\Configuration.cs" />
@@ -211,6 +211,7 @@
     <Compile Include="Models\TicketType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\AdminUserViewModel.cs" />
     <Compile Include="ViewModels\UserProfileViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -293,6 +294,8 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Avatars\defaultavatar.jpg" />
+    <Content Include="Images\doc.png" />
+    <Content Include="Images\docx.png" />
     <Content Include="Images\forgotpass.jpg" />
     <Content Include="Images\favicon-96x96.png" />
     <Content Include="Images\favicon.png" />
@@ -301,7 +304,12 @@
     <Content Include="Images\login-bg.jpg" />
     <Content Include="Images\logo-mini.svg" />
     <Content Include="Images\logo.svg" />
+    <Content Include="Images\other.png" />
+    <Content Include="Images\pdf.png" />
     <Content Include="Images\register-bg.jpg" />
+    <Content Include="Images\xls.png" />
+    <Content Include="Images\xlsx.png" />
+    <Content Include="Images\zip.png" />
     <Content Include="Scripts\Chart.min.js" />
     <Content Include="Scripts\curvedLines.js" />
     <Content Include="Scripts\dashboard.js" />
