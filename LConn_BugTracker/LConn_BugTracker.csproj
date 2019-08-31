@@ -191,11 +191,13 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\CommonHelper.cs" />
+    <Compile Include="Helpers\HistoryHelper.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />
     <Compile Include="Helpers\ProjectsHelper.cs" />
     <Compile Include="Helpers\TicketDecisionHelper.cs" />
     <Compile Include="Helpers\TicketHelper.cs" />
     <Compile Include="Helpers\UserRolesHelper.cs" />
+    <Compile Include="Helpers\Utilities.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -215,6 +217,14 @@
     <Compile Include="ViewModels\UserProfileViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Avatars\Another pic %282%29.jpg" />
+    <Content Include="Avatars\avatar1.jpg" />
+    <Content Include="Avatars\avatar3.jpg" />
+    <Content Include="Avatars\avatar4.jpg" />
+    <Content Include="Avatars\Basic avatar.jpg" />
+    <Content Include="Avatars\Dany.jpg" />
+    <Content Include="Avatars\Jon Snow.jpg" />
+    <Content Include="Avatars\Yet another pic %282%29.jpg" />
     <Content Include="Content\style.css" />
     <Content Include="DataTables\Buttons-1.5.6\css\buttons.bootstrap.css" />
     <Content Include="DataTables\Buttons-1.5.6\css\buttons.bootstrap.min.css" />
@@ -418,6 +428,7 @@
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\Register.cshtml" />
     <Content Include="Views\Home\Dashboard.cshtml" />
+    <None Include="Properties\PublishProfiles\LConnBugTracker - Web Deploy.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

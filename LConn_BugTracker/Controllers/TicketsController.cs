@@ -16,7 +16,9 @@ namespace LConn_BugTracker.Controllers
     public class TicketsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private UserRolesHelper roleHelper = new UserRolesHelper();
         private ProjectsHelper projectHelper = new ProjectsHelper();
+        private HistoryHelper historyHelper = new HistoryHelper();
 
         // GET: Tickets
         public ActionResult Index()
@@ -114,8 +116,15 @@ namespace LConn_BugTracker.Controllers
         {
             if (ModelState.IsValid)
             {
+                //This represents the Ticket before it is actually changed and stored to SQL...'oldTicket'
+                var oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
+                ticket.Updated = DateTime.Now;
                 db.Entry(ticket).State = EntityState.Modified;
                 db.SaveChanges();
+
+                //I will be looking here for Tcket changes (ticket = newTicket)
+                historyHelper.RecordHistory(oldTicket, ticket);
+
                 return RedirectToAction("Index");
             }
             ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignedToUserId);

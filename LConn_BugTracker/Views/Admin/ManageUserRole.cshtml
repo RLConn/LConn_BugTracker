@@ -1,6 +1,9 @@
-﻿
+﻿@using LConn_BugTracker.ViewModels
+@using LConn_BugTracker.Helpers
+
 @{
     ViewBag.Title = "ManageUserRole";
+    var roleHelper = new UserRolesHelper();
 }
 
 <h2>Manage User Role</h2>
@@ -12,7 +15,7 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    @Html.Hidden("UserId",(string)ViewBag.UserId)
+    @Html.Hidden("UserId", (string)ViewBag.UserId)
 
     <div class="form-group">
         @Html.Label("Assign Role", null, htmlAttributes: new { @class = "control-label col-md-2" })
