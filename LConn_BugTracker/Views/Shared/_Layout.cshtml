@@ -278,6 +278,14 @@
                         <div class="collapse" id="projs">
                             <ul class="nav flex-column sub-menu">
                                 <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index","Projects")">Project Index</a></li>
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("Create", "Projects")">Create a Project</a></li>
+                                }
+                                @if (User.IsInRole("ProjectManager"))
+                                {
+                                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("Create", "Projects")">Create a Project</a></li>
+                                }
                                 <li class="nav-item"> <a class="nav-link" href="@Url.Action("ManageUsers","Admin")">Manage Users</a></li>
                                 <li class="nav-item"> <a class="nav-link" href="@Url.Action("ManagerUserRole","Admin")">Manage User Role</a></li>
                                 <li class="nav-item"> <a class="nav-link" href="@Url.Action("ManageRoles","Admin")">Manage Roles</a></li>
@@ -295,27 +303,12 @@
                         </a>
                         <div class="collapse" id="ticks">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="@Url.Action("Index","Tickets")">
-                                        <i class="typcn typcn-ticket menu-icon"></i>
-                                        <span class="menu-title">Ticket List</span>
-                                    </a>
-                                </li>
+                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index","Tickets")">Ticket List</a></li>
                                 @if (User.IsInRole("Submitter"))
                                 {
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="@Url.Action("Create", "Tickets")">
-                                            <i class="typcn typcn-ticket menu-icon"></i>
-                                            <span class="menu-title">Create a Ticket</span>
-                                        </a>
-                                    </li>
+                                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("Create", "Tickets")">Create a Ticket</a></li>
                                 }
-                                <li class="nav-item">
-                                    <a class="nav-link" href="@Url.Action("Index","TicketAttachments")">
-                                        <i class="typcn typcn-ticket menu-icon"></i>
-                                        <span class="menu-title">Ticket Attachments</span>
-                                    </a>
-                                </li>
+                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index","TicketAttachments")">Ticket Attachments</a></li>
                             </ul>
                         </div>
                     </li>

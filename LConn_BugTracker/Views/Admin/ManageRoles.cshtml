@@ -18,46 +18,51 @@
                         <div class="col-12">
                             <div class="table-responsive">
                                 <div id="order-listing_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
-                                    
-                                        <div class="col-sm-12">
-                                            <table id="order-listing" class="table dataTable table-striped" role="grid" aria-describedby="order-listing_info">
-                                                <thead>
-                                                    <tr role="row">
-                                                        <th class="sorting_asc" tabindex="0" aria-controls="order-listing" rowspan="1" colspan="1" aria-sort="ascending" style="width: 102px;">@Html.DisplayName("Full Name")</th>
-                                                        <th class="sorting" tabindex="0" aria-controls="order-listing" rowspan="1" colspan="1" style="width: 83px;">@Html.DisplayName("Avatar")</th>
-                                                        <th class="sorting" tabindex="0" aria-controls="order-listing" rowspan="1" colspan="1" style="width: 142px;">@Html.DisplayNameFor(model => model.Email)</th>
-                                                        <th class="sorting" tabindex="0" aria-controls="order-listing" rowspan="1" colspan="1" style="width: 102px;">@Html.DisplayName("Role")</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach (var user in Model)
-                                                    {
-                                                        <tr>
-                                                            <td>
-                                                                @user.LastName, @user.FirstName
-                                                            </td>
-                                                            <td class="avatar">
+
+                                    <div class="col-sm-12">
+                                        <table id="order-listing" class="table dataTable table-striped" role="grid" aria-describedby="order-listing_info">
+                                            <thead>
+                                                <tr role="row">
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="order-listing" rowspan="1" colspan="1" aria-sort="ascending">@Html.DisplayName("Full Name")</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="order-listing" rowspan="1" colspan="1">@Html.DisplayName("Avatar")</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="order-listing" rowspan="1" colspan="1">@Html.DisplayNameFor(model => model.Email)</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="order-listing" rowspan="1" colspan="1">@Html.DisplayName("Role")</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var user in Model)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            @user.LastName, @user.FirstName
+                                                        </td>
+                                                        <td class="avatar">
                                                             <img src="@user.AvatarUrl" class="img-responsive" />
                                                         </td>
-                                                            <td>
-                                                                @Html.DisplayFor(modelItem => user.Email)
-                                                            </td>
-                                                            <td>
-                                                                @roleHelper.ListUserRoles(user.Id).FirstOrDefault()
-                                                            </td>
-                                                        </tr>
-                                                    }
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => user.Email)
+                                                        </td>
+                                                        <td>
+                                                            @roleHelper.ListUserRoles(user.Id).FirstOrDefault()
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    @Html.ActionLink("Back To Dashboard", "Dashboard", "Home")
                 </div>
+                <div class="form-group">
+                    <div class="btn btn-outline-secondary btn-fw">
+                        @Html.ActionLink("Back To Dashboard", "Dashboard", "Home")
+                    </div>
+                </div>
+                
             </div>
+        </div>
         
         <div class="footer">
             <div class="content-wrapper">
@@ -75,7 +80,7 @@
 
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-4">
-                            <input type="submit" value="ASSIGN" class="btn btn-outline-primary btn-fw" />
+                            <input type="submit" value="ASSIGN" class="btn btn-outline-success btn-fw" />
                         </div>
                     </div>
                 }

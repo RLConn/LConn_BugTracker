@@ -1,8 +1,6 @@
 ﻿@model LConn_BugTracker.Models.Ticket
 
-
 <!DOCTYPE html>
-
 
 <div class="main-panel">
     <div class="content-wrapper">
@@ -55,9 +53,9 @@
                                     @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                                 </div>
                             </div>
-                            
-                            <button type="submit" class="btn btn-primary mr-2">Submit</button>
-                            <button class="btn btn-light">Cancel</button>
+
+                            <button type="submit" class="btn btn-outline-success btn-fw">Submit</button>
+                            <button class="btn btn-outline-light btn-fw">@Html.ActionLink("Cancel", "Index")</button>
                         }
                     </div>
                     
