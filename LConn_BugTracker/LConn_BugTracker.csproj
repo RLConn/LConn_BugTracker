@@ -226,6 +226,7 @@
     <Content Include="Avatars\Jon Snow.jpg" />
     <Content Include="Avatars\Yet another pic %282%29.jpg" />
     <Content Include="Content\dataTables.bootstrap4.css" />
+    <Content Include="Content\fullcalendar.min.css" />
     <Content Include="Content\style.css" />
     <Content Include="DataTables\Buttons-1.5.6\css\buttons.bootstrap.css" />
     <Content Include="DataTables\Buttons-1.5.6\css\buttons.bootstrap.min.css" />
@@ -321,16 +322,19 @@
     <Content Include="Images\xls.png" />
     <Content Include="Images\xlsx.png" />
     <Content Include="Images\zip.png" />
+    <Content Include="Scripts\calendar.js" />
     <Content Include="Scripts\Chart.min.js" />
     <Content Include="Scripts\curvedLines.js" />
     <Content Include="Scripts\dashboard.js" />
     <Content Include="Scripts\data-table.js" />
+    <Content Include="Scripts\fullcalendar.min.js" />
     <Content Include="Scripts\hoverable-collapse.js" />
     <Content Include="Fonts\typicons.eot" />
     <Content Include="Fonts\typicons.ttf" />
     <Content Include="Fonts\typicons.woff" />
     <Content Include="Scripts\jquery.dataTables.js" />
     <Content Include="Scripts\jquery.flot.js" />
+    <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\off-canvas.js" />
     <Content Include="Scripts\progressbar.min.js" />
     <Content Include="Scripts\settings.js" />
@@ -452,7 +456,9 @@
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\Register.cshtml" />
     <Content Include="Views\Home\Dashboard.cshtml" />
+    <Content Include="private.config" />
     <None Include="Properties\PublishProfiles\LConnBugTracker - Web Deploy.pubxml" />
+    <Content Include="Views\Home\Calendar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

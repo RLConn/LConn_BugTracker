@@ -25,7 +25,10 @@ namespace LConn_BugTracker.Controllers
             return View();
         }
 
-
+        public ActionResult Calendar()
+        {
+            return View();
+        }
 
 
     }

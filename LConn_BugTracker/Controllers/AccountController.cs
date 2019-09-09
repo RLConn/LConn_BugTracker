@@ -12,6 +12,7 @@ using LConn_BugTracker.Models;
 using LConn_BugTracker.Helpers;
 using System.Web.Configuration;
 using System.IO;
+using System.Net.Mail;
 
 namespace LConn_BugTracker.Controllers
 {
@@ -225,12 +226,12 @@ namespace LConn_BugTracker.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ForgotPassword(ForgotViewModel model)
+        public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
             if (ModelState.IsValid)
             {
                 var user = await UserManager.FindByNameAsync(model.Email);
-                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
+                if (user == null) //|| !(await UserManager.IsEmailConfirmedAsync(user.Id)))*hold onto incase this idea doesn't work
                 {
                     // Don't reveal that the user does not exist or is not confirmed
                     return View("ForgotPasswordConfirmation");
@@ -240,7 +241,29 @@ namespace LConn_BugTracker.Controllers
                 // Send an email with this link
                 string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                //await UserManager.SendEmailAsync(user.Id, "Reset Password", 
+
+                try
+                {
+                    var from = WebConfigurationManager.AppSettings["emailfrom"];
+                    var body = "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here.</a>";
+                    var email = new MailMessage(from, model.Email)
+                    {
+                        Subject = "Reset Password",
+                        Body = body,
+                        IsBodyHtml = true
+                    };
+
+                    var svc = new PersonalEmail();
+                    await svc.SendAsync(email);
+                }
+                catch (Exception ex)
+                {
+
+                    Console.WriteLine(ex.Message);
+                    await Task.FromResult(0);
+                }
+
                 return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
