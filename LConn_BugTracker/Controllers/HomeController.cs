@@ -30,6 +30,9 @@ namespace LConn_BugTracker.Controllers
             return View();
         }
 
-
+        public ActionResult NewUser()
+        {
+            return View();
+        }
     }
 }

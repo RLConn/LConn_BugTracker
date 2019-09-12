@@ -174,6 +174,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\DemoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MembersController.cs" />
@@ -218,12 +219,18 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Avatars\Another pic %282%29.jpg" />
+    <Content Include="Avatars\arya.jpg" />
     <Content Include="Avatars\avatar1.jpg" />
     <Content Include="Avatars\avatar3.jpg" />
     <Content Include="Avatars\avatar4.jpg" />
+    <Content Include="Avatars\Backdrop_6 %283%29.jpg" />
     <Content Include="Avatars\Basic avatar.jpg" />
     <Content Include="Avatars\Dany.jpg" />
     <Content Include="Avatars\Jon Snow.jpg" />
+    <Content Include="Avatars\jora.jpg" />
+    <Content Include="Avatars\nightking avatar.jpg" />
+    <Content Include="Avatars\sam.jpg" />
+    <Content Include="Avatars\tyrion.jpg" />
     <Content Include="Avatars\Yet another pic %282%29.jpg" />
     <Content Include="Content\dataTables.bootstrap4.css" />
     <Content Include="Content\fullcalendar.min.css" />
@@ -459,6 +466,8 @@
     <Content Include="private.config" />
     <None Include="Properties\PublishProfiles\LConnBugTracker - Web Deploy.pubxml" />
     <Content Include="Views\Home\Calendar.cshtml" />
+    <Content Include="Views\Home\NewUser.cshtml" />
+    <Content Include="Views\Demo\StartDemoPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

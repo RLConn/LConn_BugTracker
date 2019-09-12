@@ -8,6 +8,7 @@ namespace LConn_BugTracker.Migrations
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
+    using System.Web.Configuration;
 
     internal sealed class Configuration : DbMigrationsConfiguration<LConn_BugTracker.Models.ApplicationDbContext>
     {
@@ -97,11 +98,69 @@ namespace LConn_BugTracker.Migrations
                     AvatarUrl = "/Avatars/defaultavatar.jpg"
                 }, "P@ssw0rd");
             }
+
+            //Adding in Demo Users
+            var demoUserPassword = WebConfigurationManager.AppSettings["DemoUserPassword"];
+            if (!context.Users.Any(u => u.Email == "DemoAdmin@Mailinator.com"))
+            {
+                userManager.Create(new ApplicationUser
+                {
+                    UserName = "DemoAdmin@Mailinator.com",
+                    Email = "DemoAdmin@Mailinator.com",
+                    FirstName = "Demo",
+                    LastName = "Admin",
+                    DisplayName = "The Admin",
+                    AvatarUrl = "/Avatars/defaultavatar.jpg"
+                }, demoUserPassword);
+            }
+
+            if (!context.Users.Any(u => u.Email == "DemoProjectManager@Mailinator.com"))
+            {
+                userManager.Create(new ApplicationUser
+                {
+                    UserName = "DemoProjectManager@Mailinator.com",
+                    Email = "DemoProjectManager@Mailinator.com",
+                    FirstName = "Demo",
+                    LastName = "Project Manager",
+                    DisplayName = "DemoPM",
+                    AvatarUrl = "/Avatars/defaultavatar.jpg"
+                }, demoUserPassword);
+            }
+
+            if (!context.Users.Any(u => u.Email == "DemoSubmitter@Mailinator.com"))
+            {
+                userManager.Create(new ApplicationUser
+                {
+                    UserName = "DemoSubmitter@Mailinator.com",
+                    Email = "DemoSubmitter@Mailinator.com",
+                    FirstName = "Demo",
+                    LastName = "Submitter",
+                    DisplayName = "DemoSub",
+                    AvatarUrl = "/Avatars/defaultavatar.jpg"
+                }, demoUserPassword);
+            }
+
+            if (!context.Users.Any(u => u.Email == "DemoDeveloper@Mailinator.com"))
+            {
+                userManager.Create(new ApplicationUser
+                {
+                    UserName = "DemoDeveloper@Mailinator.com",
+                    Email = "DemoDeveloper@Mailinator.com",
+                    FirstName = "Demo",
+                    LastName = "Developer",
+                    DisplayName = "DemoDev",
+                    AvatarUrl = "/Avatars/defaultavatar.jpg"
+                }, demoUserPassword);
+            }
+                    
             #endregion
 
             #region Role Assignment
             var adminId = userManager.FindByEmail("LeeC@mailinator.com").Id;
             userManager.AddToRole(adminId, "Admin");
+
+            var projId = userManager.FindByEmail("ProjectManager@mailinator.com").Id;
+            userManager.AddToRole(projId, "ProjectManager");
 
             var subId = userManager.FindByEmail("Submitter@mailinator.com").Id;
             userManager.AddToRole(subId, "Submitter");
@@ -109,8 +168,20 @@ namespace LConn_BugTracker.Migrations
             var deveId = userManager.FindByEmail("Developer@mailinator.com").Id;
             userManager.AddToRole(deveId, "Developer");
 
-            var projId = userManager.FindByEmail("ProjectManager@mailinator.com").Id;
-            userManager.AddToRole(projId, "ProjectManager");
+
+            //Demo Role Assignment
+            var demoAdminId = userManager.FindByEmail("DemoAdmin@Mailinator.com").Id;
+            userManager.AddToRole(demoAdminId, "Admin");
+
+            var demoProjId = userManager.FindByEmail("DemoProjectManager@Mailinator.com").Id;
+            userManager.AddToRole(demoProjId, "ProjectManager");
+
+            var demoSubId = userManager.FindByEmail("DemoSubmitter@Mailinator.com").Id;
+            userManager.AddToRole(demoSubId, "Submitter");
+
+            var demoDevId = userManager.FindByEmail("DemoDeveloper@Mailinator.com").Id;
+            userManager.AddToRole(demoDevId, "Developer");
+
             #endregion
 
             #region Project Creation
