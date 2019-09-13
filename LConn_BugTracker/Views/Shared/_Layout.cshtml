@@ -1,5 +1,7 @@
-﻿@using LConn_BugTracker.Models
+﻿@using LConn_BugTracker.Helpers
+@using LConn_BugTracker.Models
 @using Microsoft.AspNet.Identity
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -64,54 +66,60 @@
                             Help
                         </a>
                     </li>
+
                     <li class="nav-item dropdown d-flex">
                         <a class="nav-link count-indicator dropdown-toggle d-flex justify-content-center align-items-center" id="messageDropdown" href="#" data-toggle="dropdown">
                             <i class="typcn typcn-message-typing"></i>
-                            <span class="count bg-success">2</span>
+                            <span class="count bg-success">@NotificationHelper.GetAllUserNoticationCount()</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="messageDropdown">
-                            <p class="mb-0 font-weight-normal float-left dropdown-header">Messages</p>
-                            <a class="dropdown-item preview-item">
-                                <div class="preview-thumbnail">
-                                    <img src="../../images/faces/face4.jpg" alt="image" class="profile-pic">
-                                </div>
+                            <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
                                 <div class="preview-item-content flex-grow">
-                                    <h6 class="preview-subject ellipsis font-weight-normal">
-                                        David Grey
-                                    </h6>
-                                    <p class="font-weight-light small-text mb-0">
-                                        The meeting is cancelled
-                                    </p>
+                                    <ul>
+                                        @foreach (var notification in NotificationHelper.GetUnreadUserNotifications())
+                                        {
+                                            <li>
+                                                <hr size=3 />
+                                                @using (Html.BeginForm("MarkAsRead", "TicketNotifications"))
+                                                {
+                                                    @Html.AntiForgeryToken()
+                                                    @Html.Hidden("Id", notification.Id)
+                                                    <div class="row">
+                                                        <div class="col-md-2">
+                                                            <figure class="image">
+                                                                <img src="@notification.Sender.AvatarUrl" alt="@notification.Sender.Email" class="img-circle" width="25" />
+                                                            </figure>
+                                                        </div>
+                                                        <div class="col-md-10">
+                                                            <span class="title">@notification.Subject</span>
+                                                        </div>
+                                                    </div>
+                                                    <br />
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <span class="message text-justify"><b>@notification.NotificationBody</b></span>
+                                                        </div>
+                                                    </div>
+                                                    <br />
+                                                    <div class="row">
+                                                        <div class="col-md-12 text-center">
+                                                            <button type="submit" class="btn btn-sm btn-outline-primary">Mark as read</button>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </li>
+                                        }
+                                    </ul>
+                                    <hr />
+                                    <div class="form-group text-right">
+                                        <div class="btn btn-sm btn-outline-secondary btn-fw">
+                                            <a href="@Url.Action("MyNotifications", "TicketNotifications")" class="view-more">View All</a>
+                                        </div>
+                                    </div>
                                 </div>
-                            </a>
-                            <a class="dropdown-item preview-item">
-                                <div class="preview-thumbnail">
-                                    <img src="../../images/faces/face2.jpg" alt="image" class="profile-pic">
-                                </div>
-                                <div class="preview-item-content flex-grow">
-                                    <h6 class="preview-subject ellipsis font-weight-normal">
-                                        Tim Cook
-                                    </h6>
-                                    <p class="font-weight-light small-text mb-0">
-                                        New product launch
-                                    </p>
-                                </div>
-                            </a>
-                            <a class="dropdown-item preview-item">
-                                <div class="preview-thumbnail">
-                                    <img src="../../images/faces/face3.jpg" alt="image" class="profile-pic">
-                                </div>
-                                <div class="preview-item-content flex-grow">
-                                    <h6 class="preview-subject ellipsis font-weight-normal">
-                                        Johnson
-                                    </h6>
-                                    <p class="font-weight-light small-text mb-0">
-                                        Upcoming board meeting
-                                    </p>
-                                </div>
-                            </a>
                         </div>
                     </li>
+
                     <li class="nav-item dropdown  d-flex">
                         <a class="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center" id="notificationDropdown" href="#" data-toggle="dropdown">
                             <i class="typcn typcn-bell mr-0"></i>
@@ -286,6 +294,7 @@
                                         <li class="nav-item"> <a class="nav-link" href="@Url.Action("Create", "Tickets")">Create a Ticket</a></li>
                                     }
                                     <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index","TicketAttachments")">Ticket Attachments</a></li>
+                                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index","TicketNotifications")">Notifications</a></li>
                                 </ul>
                             </div>
                         </li>

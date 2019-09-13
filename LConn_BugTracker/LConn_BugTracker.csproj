@@ -194,6 +194,7 @@
     <Compile Include="Helpers\CommonHelper.cs" />
     <Compile Include="Helpers\HistoryHelper.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />
+    <Compile Include="Helpers\NotificationHelper.cs" />
     <Compile Include="Helpers\ProjectsHelper.cs" />
     <Compile Include="Helpers\TicketDecisionHelper.cs" />
     <Compile Include="Helpers\TicketHelper.cs" />
@@ -215,6 +216,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\AdminUserViewModel.cs" />
+    <Compile Include="ViewModels\UserIndexViewModel.cs" />
     <Compile Include="ViewModels\UserProfileViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -468,6 +470,7 @@
     <Content Include="Views\Home\Calendar.cshtml" />
     <Content Include="Views\Home\NewUser.cshtml" />
     <Content Include="Views\Demo\StartDemoPage.cshtml" />
+    <Content Include="Views\TicketNotifications\MyNotifications.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

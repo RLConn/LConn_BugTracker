@@ -18,8 +18,11 @@ namespace LConn_BugTracker.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         private UserRolesHelper roleHelper = new UserRolesHelper();
         private ProjectsHelper projectHelper = new ProjectsHelper();
+        private TicketDecisionHelper tickHelper = new TicketDecisionHelper();
+        private NotificationHelper notifHelper = new NotificationHelper();
         private HistoryHelper historyHelper = new HistoryHelper();
 
+        [Authorize]
         // GET: Tickets
         public ActionResult Index()
         {
@@ -27,6 +30,7 @@ namespace LConn_BugTracker.Controllers
             return View(tickets.ToList());
         }
 
+        [Authorize]
         // GET: Tickets/Details/5
         public ActionResult Details(int? id)
         {
@@ -71,9 +75,9 @@ namespace LConn_BugTracker.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ProjectId = new SelectList(db.Projects, "ID", "Name");
-            ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name");
-            ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name");
+            ViewBag.ProjectId = new SelectList(db.Projects, "ID", "Name", ticket.ProjectId);
+            ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
+            ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name", ticket.TicketTypeId);
             return View();
         }
 
@@ -99,7 +103,7 @@ namespace LConn_BugTracker.Controllers
                 return RedirectToAction("Index", "Tickets");
             }
             
-            ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignedToUserId);
+            ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FullName", ticket.AssignedToUserId);
             ViewBag.ProjectId = new SelectList(db.Projects, "ID", "Name", ticket.ProjectId);
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
             ViewBag.TicketStatusId = new SelectList(db.TicketStatuses, "Id", "Name", ticket.TicketStatusId);
@@ -112,22 +116,44 @@ namespace LConn_BugTracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,ProjectId,TicketTypeId,TicketStatusId,TicketPriorityId,OwnerUserId,AssignedToUserId,Title,Description,Created,Updated")] Ticket ticket)
+        public ActionResult Edit([Bind(Include = "Id,ProjectId,TicketTypeId,TicketStatusId,TicketPriorityId,OwnerUserId,AssignedToUserId,Title,Description,Created,Updated")] Ticket ticket)
         {
             if (ModelState.IsValid)
             {
                 //This represents the Ticket before it is actually changed and stored to SQL...'oldTicket'
                 var oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
-                ticket.Updated = DateTime.Now;
+
+                var newTicket = db.Tickets.Find(ticket.Id);
+                newTicket.TicketStatusId = ticket.TicketStatusId;
+                newTicket.TicketTypeId = ticket.TicketTypeId;
+                newTicket.TicketPriorityId = ticket.TicketPriorityId;
+                newTicket.AssignedToUserId = ticket.AssignedToUserId;
+                newTicket.Title = ticket.Title;
+                newTicket.Description = ticket.Description;
+                newTicket.Updated = DateTime.Now;
+
+                var noChange = (oldTicket.AssignedToUserId == newTicket.AssignedToUserId);
+                var assignment = (string.IsNullOrEmpty(oldTicket.AssignedToUserId));
+                var unassignment = (string.IsNullOrEmpty(newTicket.AssignedToUserId));
+
+                var ActiveStatusId = db.TicketStatuses.FirstOrDefault(ts => ts.Name == "Active/Assigned").Id;
+                var InactiveStatusId = db.TicketStatuses.FirstOrDefault(ts => ts.Name == "Inactive").Id;
+
+                if (assignment) newTicket.TicketStatusId = ActiveStatusId;
+                if (unassignment) newTicket.TicketStatusId = InactiveStatusId;
+
                 db.Entry(ticket).State = EntityState.Modified;
                 db.SaveChanges();
+
+                //Calling the NotificationHelper to determine if a Notification needs to be created
+                notifHelper.ManageNotifications(oldTicket, ticket);
 
                 //I will be looking here for Tcket changes (ticket = newTicket)
                 historyHelper.RecordHistory(oldTicket, ticket);
 
                 return RedirectToAction("Index");
             }
-            ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignedToUserId);
+            ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FullName", ticket.AssignedToUserId);
             ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName", ticket.OwnerUserId);
             ViewBag.ProjectId = new SelectList(db.Projects, "ID", "Name", ticket.ProjectId);
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);

@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using LConn_BugTracker.Models;
+using Microsoft.AspNet.Identity;
 
 namespace LConn_BugTracker.Controllers
 {
@@ -15,12 +16,33 @@ namespace LConn_BugTracker.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: TicketNotifications
+        // GET: TicketNotifications/Index - returns ALL Notifications
         public ActionResult Index()
         {
             var ticketNotifications = db.TicketNotifications.Include(t => t.Recipient).Include(t => t.Sender).Include(t => t.Ticket);
             return View(ticketNotifications.ToList());
         }
+
+        // GET: TicketNotifications/MyNotifications
+        public ActionResult MyNotifications()
+        {
+            var userId = User.Identity.GetUserId();
+            return View("Index", db.TicketNotifications.Where(t => t.RecipientId == userId).ToList());
+            
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult MarkAsRead(int id)
+        {
+            var notification = db.TicketNotifications.Find(id);
+            notification.IsRead = true;
+            db.SaveChanges();
+
+            return RedirectToAction("Dashboard", "Home");
+        }
+
+
 
         // GET: TicketNotifications/Details/5
         public ActionResult Details(int? id)

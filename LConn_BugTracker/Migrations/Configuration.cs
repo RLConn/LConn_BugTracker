@@ -231,7 +231,7 @@ namespace LConn_BugTracker.Migrations
             context.TicketStatuses.AddOrUpdate(
                 t => t.Name,
                 new TicketStatus { Name = "New / UnAssigned", Description = "New Ticket that not yet been assigned." },
-                new TicketStatus { Name = "UnAssigned", Description = "Open Ticket that is not currently assigned to anything." },
+                new TicketStatus { Name = "UnAssigned", Description = "Open Ticket that is not currently assigned to anyone." },
                 new TicketStatus { Name = "New / Assigned", Description = "New Ticket has just recently been assigned." },
                 new TicketStatus { Name = "Assigned", Description = "Open Ticket that has been assigned but is not currently in progress." },
                 new TicketStatus { Name = "In Progress", Description = "Ticket is in progress and is currently being worked." },
