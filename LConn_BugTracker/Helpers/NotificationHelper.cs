@@ -33,7 +33,6 @@ namespace LConn_BugTracker.Helpers
 
             if (noChange)
                 return;
-
             if (assignment)
                 GenerateAssignmentNotification(oldTicket, newTicket);
             else if (unassignment)
@@ -50,11 +49,11 @@ namespace LConn_BugTracker.Helpers
             var notification = new TicketNotification
             {
                 Created = DateTime.Now,
-                Subject = $"You were unassigned from Ticket Id {newTicket.Id} on {DateTime.Now}",
+                Subject = $"You were unassigned from Ticket Id {newTicket.Id} on {DateTime.Now.ToString("M/d/yyy mm:hhtt")}",
                 IsRead = false,
                 RecipientId = oldTicket.AssignedToUserId,
                 SenderId = HttpContext.Current.User.Identity.GetUserId(),
-                NotificationBody = $"Please acknowledge that you have read this notification by marking it as read",
+                NotificationBody = $"Please acknowledge that you have read this notification by marking it Read.",
                 TicketId = newTicket.Id
             };
 
@@ -65,14 +64,13 @@ namespace LConn_BugTracker.Helpers
 
         private void GenerateAssignmentNotification(Ticket oldTicket, Ticket newTicket)
         {
-            var senderId = HttpContext.Current.User.Identity.GetUserId();
             var notification = new TicketNotification
             {
                 Created = DateTime.Now,
                 Subject = $"You were assigned to Ticket Id {newTicket.Id} on {DateTime.Now}",
                 IsRead = false,
                 RecipientId = newTicket.AssignedToUserId,
-                SenderId = senderId,
+                SenderId = HttpContext.Current.User.Identity.GetUserId(),
                 NotificationBody = $"Please acknowledge that you have read this notification by marking it Read",
                 TicketId = newTicket.Id
             };
@@ -94,7 +92,7 @@ namespace LConn_BugTracker.Helpers
 
                 if (oldValue != newValue)
                 {
-                    messageBody.AppendLine(new string('-', 45));
+                    messageBody.AppendLine(new String('-', 45));
                     messageBody.AppendLine($"A change was made to Property: {property}.");
                     messageBody.AppendLine($"The old value was: {oldValue.ToString()}");
                     messageBody.AppendLine($"The new value is: {newValue.ToString()}");

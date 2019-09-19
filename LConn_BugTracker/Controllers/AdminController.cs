@@ -39,6 +39,39 @@ namespace LConn_BugTracker.Controllers
             return View(users);
         }
 
+        // POST: UserIndex
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UserIndex(string userId, string CurrentRole, List<int> CurrentProjects)
+        {
+            // Remove user from whatever role they currently occupy
+            foreach (var role in roleHelper.ListUserRoles(userId))
+            {
+                roleHelper.RemoveUserFromRole(userId, role);
+            }
+
+            if (!string.IsNullOrEmpty(CurrentRole))
+            {
+                // Then add them back to the selected role
+                roleHelper.AddUserToRole(userId, CurrentRole);
+            }
+
+            if (CurrentProjects != null)
+            {
+                // Remove user from whatever projects they currently occupy 
+                foreach (var project in projectHelper.ListUserProjects(userId))
+                {
+                    projectHelper.RemoveUserFromProject(userId, project.Id);
+                }
+                // Then add them back to the selected role
+                foreach (var project in CurrentProjects)
+                {
+                    projectHelper.AddUserToProject(userId, project);
+                }
+            }
+            return RedirectToAction("UserIndex");
+        }
+
         public ActionResult RolesIndex()
         {
             return View();
@@ -96,6 +129,7 @@ namespace LConn_BugTracker.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult ManageRoles(List<string> users, string roleName)
         {
             if (users != null)
@@ -117,7 +151,7 @@ namespace LConn_BugTracker.Controllers
                 }
             }
 
-            return RedirectToAction("ManageRoles");
+            return RedirectToAction("UserIndex");
         }
 
         public ActionResult ManageUserProjects(string userId)

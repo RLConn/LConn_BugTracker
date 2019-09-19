@@ -6,6 +6,7 @@
 
 @{
     var roleHelper = new UserRolesHelper();
+    var projHelper = new ProjectsHelper();
 }
 
 
@@ -16,52 +17,61 @@
                 <h4 class="card-title">User Index</h4>
                 <div class="row">
                     <div class="col-12">
-                        <div class="table-responsive">
-                            <div id="order-listing_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
-                                <div class="col-sm-12">
-                                    <table id="order-listing" class="table dataTable table-striped" role="grid" aria-describedby="order-listing_info">
-                                        <thead>
-                                            <tr role="row">
-                                                <th class="sorting_asc" tabindex="0" aria-controls="order-listing" rowspan="1" colspan="1" aria-sort="ascending">@Html.DisplayNameFor(model => model.DisplayName)</th>
-                                                <th class="sorting" tabindex="0" aria-controls="order-listing" rowspan="1" colspan="1">@Html.DisplayName("Avatar")</th>
-                                                <th class="sorting" tabindex="0" aria-controls="order-listing" rowspan="1" colspan="1">@Html.DisplayNameFor(model => model.FullName)</th>
-                                                <th class="sorting" tabindex="0" aria-controls="order-listing" rowspan="1" colspan="1">@Html.DisplayNameFor(model => model.Email)</th>
-                                                <th class="sorting" tabindex="0" aria-controls="order-listing" rowspan="1" colspan="1">@Html.DisplayName("Current Role")</th>
-                                                <th class="sorting" tabindex="0" aria-controls="order-listing" rowspan="1" colspan="1">@Html.DisplayName("Current Project(s)")</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach (var user in Model)
-                                            {
-                                            <tr>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => user.DisplayName)
-                                                </td>
-                                                <td class="avatar">
-                                                    <img src="@user.AvatarUrl" class="img-responsive" />
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => user.FullName)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => user.Email)
-                                                </td>
-                                                <td>
-                                                    @Html.DropDownList("CurrentRole", user.CurrentRole, "NONE")
-                                                </td>
-                                                <td>
-                                                    @Html.ListBox("CurrentProjects", user.CurrentProjects)
-                                                </td>
-                                            </tr>
-                                            }
-                                        </tbody>
-                                    </table>
+                            <div class="table-responsive">
+                                <div id="order-listing_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
+                                    <div class="col-sm-12">
+                                        <table id="order-listing" class="table dataTable table-striped" role="grid" aria-describedby="order-listing_info">
+                                            <thead>
+                                                <tr role="row">
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="order-listing" rowspan="1" colspan="1" aria-sort="ascending">@Html.DisplayNameFor(model => model.DisplayName)</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="order-listing" rowspan="1" colspan="1">@Html.DisplayName("Avatar")</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="order-listing" rowspan="1" colspan="1">@Html.DisplayNameFor(model => model.FullName)</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="order-listing" rowspan="1" colspan="1">@Html.DisplayNameFor(model => model.Email)</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="order-listing" rowspan="1" colspan="1">@Html.DisplayName("Current Role")</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="order-listing" rowspan="1" colspan="1">@Html.DisplayName("Current Project(s)")</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var user in Model)
+                                                {
+                                                <tr>
+                                                    @using (Html.BeginForm())
+                                                    {
+                                                        @Html.AntiForgeryToken()
+                                                        @Html.Hidden("userId", user.Id)
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => user.DisplayName)
+                                                        </td>
+                                                        <td class="avatar">
+                                                            <img src="@user.AvatarUrl" class="img-responsive" />
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => user.FullName)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => user.Email)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DropDownList("CurrentRole", user.CurrentRole, "NONE")
+                                                        </td>
+                                                        <td>
+                                                            @Html.ListBox("CurrentProjects", user.CurrentProjects)
+                                                        </td>
+                                                        <td>
+                                                            <div class="form-group">
+                                                                <input type="submit" value="Assign" class="btn btn-outline-light btn-fw">
+                                                            </div>
+                                                        </td>
+                                                    }
+
+                                                </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
+                                
                             </div>
-                            <div class="form-group">
-                                <input type="submit" value="Assign" class="btn btn-outline-light btn-fw">
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="form-group">

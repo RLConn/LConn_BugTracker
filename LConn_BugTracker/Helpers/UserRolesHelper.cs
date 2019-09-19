@@ -1,6 +1,7 @@
 ﻿using LConn_BugTracker.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using LConn_BugTracker.Enumerations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace LConn_BugTracker.Helpers
     public class UserRolesHelper
     {
         private UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
-
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         public bool IsUserInRole(string userId, string roleName)
         {
