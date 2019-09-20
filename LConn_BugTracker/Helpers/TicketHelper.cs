@@ -22,5 +22,6 @@ namespace LConn_BugTracker.Helpers
         {
             return Db.Tickets.Where(t => t.TicketType.Name == name).ToList();
         }
+
     }
 }

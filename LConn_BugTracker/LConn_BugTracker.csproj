@@ -243,7 +243,10 @@
     <Content Include="Content\dataTables.bootstrap4.css" />
     <Content Include="Content\fullcalendar.min.css" />
     <Content Include="Content\style.css" />
+    <Content Include="Fonts\font-awesome.min.css" />
+    <Content Include="Fonts\fontawesome-webfont.svg" />
     <Content Include="Fonts\simple-line-icons.css" />
+    <Content Include="Fonts\Simple-Line-Icons.svg" />
     <Content Include="Fonts\typicons.css" />
     <Content Include="Fonts\typicons.svg" />
     <Content Include="Content\vendor.bundle.base.css" />
@@ -403,6 +406,15 @@
     <Content Include="Fonts\Roboto\Roboto-Regular.ttf" />
     <Content Include="Fonts\Roboto\Roboto-Regular.woff" />
     <Content Include="Fonts\Roboto\Roboto-Regular.woff2" />
+    <Content Include="Fonts\fontawesome-webfont.eot" />
+    <Content Include="Fonts\fontawesome-webfont.ttf" />
+    <Content Include="Fonts\fontawesome-webfont.woff" />
+    <Content Include="Fonts\fontawesome-webfont.woff2" />
+    <Content Include="Fonts\FontAwesome.otf" />
+    <Content Include="Fonts\Simple-Line-Icons.eot" />
+    <Content Include="Fonts\Simple-Line-Icons.ttf" />
+    <Content Include="Fonts\Simple-Line-Icons.woff" />
+    <Content Include="Fonts\Simple-Line-Icons.woff2" />
     <None Include="packages.config" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\Register.cshtml" />
