@@ -30,6 +30,7 @@
     <!-- inject:css -->
     <link rel="stylesheet" href="~/Content/style.css" />
     <link rel="stylesheet" href="~/Content/dataTables.bootstrap4.css" />
+    <link rel="stylesheet" href="~/Content/PagedList.css" />
     <!-- endinject -->
     <link rel="shortcut icon" href="~/Images/favicon-96x96.png" />
 </head>
@@ -207,14 +208,11 @@
                             <div class="collapse" id="projs">
                                 <ul class="nav flex-column sub-menu">
                                     <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index","Projects")">Project Index</a></li>
-                                    @if (User.IsInRole("Admin"))
+                                    @if ((User.IsInRole("Admin")) || (User.IsInRole("ProjectManager")))
                                     {
                                         <li class="nav-item"> <a class="nav-link" href="@Url.Action("Create", "Projects")">Create a Project</a></li>
                                     }
-                                    @if (User.IsInRole("ProjectManager"))
-                                    {
-                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Create", "Projects")">Create a Project</a></li>
-                                    }
+                                   
                                     <li class="nav-item"> <a class="nav-link" href="@Url.Action("ManageUsers","Admin")">Manage Users</a></li>
                                     <li class="nav-item"> <a class="nav-link" href="@Url.Action("ManagerUserRole","Admin")">Manage User Role</a></li>
                                     <li class="nav-item"> <a class="nav-link" href="@Url.Action("ManageRoles","Admin")">Manage Roles</a></li>
@@ -269,7 +267,7 @@
                     <li>
                         <p class="sidebar-menu-title">Category</p>
                     </li>
-                    <li class="nav-item"><a href="#" class="nav-link">#Tickets</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link">#@TicketHelper.GetTicketTotalCount() Tickets</a></li>
                     <li class="nav-item"><a href="#" class="nav-link">#Projects</a></li>
                     <li class="nav-item"><a href="#" class="nav-link">#Developers</a></li>
                 </ul>

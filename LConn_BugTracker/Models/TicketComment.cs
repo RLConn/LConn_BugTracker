@@ -14,6 +14,7 @@ namespace LConn_BugTracker.Models
         public string CommentBody { get; set; }
         public DateTime Created { get; set; }
 
+
         //virtual nav
         public virtual Ticket Ticket { get; set; }
         public virtual ApplicationUser Author { get; set; }

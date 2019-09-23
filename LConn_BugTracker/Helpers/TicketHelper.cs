@@ -1,4 +1,5 @@
 ﻿using LConn_BugTracker.Models;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,5 +24,13 @@ namespace LConn_BugTracker.Helpers
             return Db.Tickets.Where(t => t.TicketType.Name == name).ToList();
         }
 
+
+        public static int GetTicketTotalCount()
+        {
+            var userId = HttpContext.Current.User.Identity.GetUserId();
+            return Db.Tickets.Where(t => t.AssignedToUserId == userId).Count();
+        }
+
+       
     }
 }

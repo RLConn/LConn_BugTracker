@@ -7,6 +7,9 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using LConn_BugTracker.Models;
+using LConn_BugTracker.Helpers;
+using Microsoft.AspNet.Identity;
+using PagedList;
 
 namespace LConn_BugTracker.Controllers
 {
@@ -16,10 +19,12 @@ namespace LConn_BugTracker.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: TicketComments
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
             var ticketComments = db.TicketComments.Include(t => t.Author).Include(t => t.Ticket);
-            return View(ticketComments.ToList());
+            int pageSize = 5;
+            var pageNumber = page ?? 1;
+            return View(ticketComments.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: TicketComments/Details/5
@@ -38,11 +43,29 @@ namespace LConn_BugTracker.Controllers
         }
 
         // GET: TicketComments/Create
-        public ActionResult Create()
+        [Authorize(Roles = "Developer, Submitter, ProjectManager, Admin")]
+        public ActionResult Create(int? id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            TicketComment ticket = db.TicketComments.Find(id);
+            if (ticket == null)
+            {
+                return HttpNotFound();
+            }
+            
+            //if (!TicketDecisionHelper.CommentCanBeCreatedByUser(ticket)
+            //{
+            //    TempData["Message"] = "You are not authorized to comment on " + ticket.Id + " based upon your assigned role.";
+            //    return RedirectToAction("Index", "Tickets");
+            //}
+
             ViewBag.AuthorId = new SelectList(db.Users, "Id", "FirstName");
             ViewBag.TicketId = new SelectList(db.Tickets, "ID", "OwnerUserId");
-            return View();
+            IQueryable<TicketComment> ticketComments = db.TicketComments.Include(t => t.Author).Include(t => t.Ticket);
+            return View(ticketComments.ToList());
         }
 
         // POST: TicketComments/Create
@@ -54,17 +77,20 @@ namespace LConn_BugTracker.Controllers
         {
             if (ModelState.IsValid)
             {
+                ticketComment.Created = DateTime.Now;
+                ticketComment.AuthorId = User.Identity.GetUserId();
                 db.TicketComments.Add(ticketComment);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Tickets");
             }
 
-            ViewBag.AuthorId = new SelectList(db.Users, "Id", "FirstName", ticketComment.AuthorId);
-            ViewBag.TicketId = new SelectList(db.Tickets, "ID", "OwnerUserId", ticketComment.TicketId);
+            //ViewBag.AuthorId = new SelectList(db.Users, "Id", "FirstName", ticketComment.AuthorId);
+            //ViewBag.TicketId = new SelectList(db.Tickets, "ID", "OwnerUserId", ticketComment.TicketId);
             return View(ticketComment);
         }
 
         // GET: TicketComments/Edit/5
+        [Authorize(Roles = "Developer, Submitter, ProjectManager, Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -76,6 +102,13 @@ namespace LConn_BugTracker.Controllers
             {
                 return HttpNotFound();
             }
+
+            //if (!TicketDecisionHelper.TicketCommentIsEditableByUser(ticketComment))
+            //{
+            //    TempData["Message"] = "You are not authorized to edit the comments on Ticket Id " + ticketComment.Id + " based upon your assigned role.";
+            //    return RedirectToAction("Index", "Tickets");
+            //}
+
             ViewBag.AuthorId = new SelectList(db.Users, "Id", "FirstName", ticketComment.AuthorId);
             ViewBag.TicketId = new SelectList(db.Tickets, "ID", "OwnerUserId", ticketComment.TicketId);
             return View(ticketComment);
