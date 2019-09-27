@@ -1,19 +1,229 @@
-﻿
-            <!-- partial -->
-            <div class="main-panel">
-                <div class="content-wrapper">
-                    <!-- page-body-wrapper ends -->
-                </div>
-                
-                <!-- content-wrapper ends -->
-                <!-- partial:partials/_footer.html -->
-                <footer class="footer">
-                    <div class="d-sm-flex justify-content-center justify-content-sm-between">
-                        <span class="text-center text-sm-left d-block d-sm-inline-block">Copyright © 2019. All rights reserved.</span>
-                        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="typcn typcn-heart text-danger"></i></span>
+﻿@using Microsoft.AspNet.Identity;
+@using LConn_BugTracker.Models;
+@using LConn_BugTracker.Helpers;
+
+
+
+@{
+    var ticketHelper = new TicketDecisionHelper();
+    var notifiHelper = new NotificationHelper();
+    var roleHelper = new UserRolesHelper();
+    var projHelper = new ProjectsHelper();
+    var userId = User.Identity.GetUserId();
+    ApplicationDbContext db = new ApplicationDbContext();
+}
+
+<style>
+    .chart01P {
+        height: 350px;
+    }
+</style>
+
+<!-- partial -->
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="col-md-6 grid-margin">
+                <div class="card d-flex align-items-center">
+                    <div class="card-body">
+                        <div class="d-flex flex-row align-items-center">
+                            <i class="icon-notebook icon-md"> Total number of Projects</i>
+                            <div class="ml-5">
+                                <p class="mt-2 text-lg-right text-reddit h2 card-text">??</p>
+                            </div>
+                        </div>
                     </div>
-                </footer>
-                <!-- partial -->
+                </div>
             </div>
-            <!-- main-panel ends -->
-       
+
+
+            <div class="col-md-6 grid-margin">
+                <div class="card d-flex align-items-center">
+                    <div class="card-body">
+                        <div class="d-flex flex-row align-items-center">
+                            <i class="icon-tag icon-md"> Total number of Tickets</i>
+                            <div class="ml-5">
+                                <p class="mt-2 text-lg-right text-reddit h2 card-text">??</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-4 grid-margin grid-margin-lg-0 stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="icon-tag icon-md"> Ticket Priority Breakdown</h4>
+                        <div id="MorrisBarChart1" class="col-md-12 chart01P"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 grid-margin grid-margin-lg-0 stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="icon-tag icon-md"> Ticket Status Breakdown</h4>
+                        <div id="MorrisDonutChart1" class="col-md-12 chart01P"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 grid-margin grid-margin-lg-0 stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="icon-tag icon-md"> Ticket Category Breakdown</h4>
+                        <div id="MorrisBarChart2" class="col-md-12 chart01P"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="col-lg-12 grid-margin grid-margin-lg-0 stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="icon-bell icon-md"> Most Recent Notifications</h4>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="table-responsive">
+                                    <div id="order-listing_wrapper" class="dataTables_paginate container-fluid dt-bootstrap4 no-footer">
+                                        <div class="col-sm-12">
+                                            <table id="order-listing" class="table dataTable table-striped" role="grid" aria-describedby="order-listing_info">
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="col-lg-12 grid-margin grid-margin-lg-0 stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="icon-bubble icon-md"> Most Recent Comments</h4>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="table-responsive">
+                                    <div id="order-listing_wrapper" class="dataTables_paginate container-fluid dt-bootstrap4 no-footer">
+                                        <div class="col-sm-12">
+                                            <table id="order-listing" class="table dataTable table-striped" role="grid" aria-describedby="order-listing_info">
+                                                <thead>
+                                                    <tr>
+                                                        <th>
+                                                            @Html.DisplayName("Commentor")
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayName("Created")
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayName("Comment")
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @*@foreach (var comment in Model.TicketComments.OrderByDescending())
+                                                        {
+                                                            <tr>
+                                                                <td>
+                                                                    @comment.Author.FullName
+                                                                </td>
+                                                                <td>
+                                                                    @comment.Created.ToString()
+                                                                </td>
+                                                                <td>
+                                                                    <p class="card-text">@comment.CommentBody</p>
+                                                                </td>
+                                                            </tr>
+
+                                                        }*@
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- page-body-wrapper ends -->
+    <!-- content-wrapper ends -->
+    <!-- partial:partials/_footer.html -->
+    <footer class="footer">
+        <div class="d-sm-flex justify-content-center justify-content-sm-between">
+            <span class="text-center text-sm-left d-block d-sm-inline-block">Copyright © 2019. All rights reserved.</span>
+            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="typcn typcn-heart text-danger"></i></span>
+        </div>
+    </footer>
+    <!-- partial -->
+</div>
+<!-- main-panel ends -->
+
+@section scripts
+    {
+    <script type="text/javascript">
+        $(function () {
+            var url = '@Url.Action("GetMorrisData1","Charts")';
+            $.post(url).then(function (response) {
+                new Morris.Bar({
+                    element: 'MorrisBarChart1',
+                    gridTextSize: 9,
+                    xLabelAngle: 25,
+                    data: response,
+                    xkey: 'label',
+                    ykeys: ['value'],
+                    labels: ['Ticket Count'],
+                    resize: true
+                });
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(function () {
+            var url = '@Url.Action("GetMorrisData2","Charts")';
+            $.post(url).then(function (response) {
+                new Morris.Bar({
+                    element: 'MorrisBarChart2',
+                    gridTextSize: 9,
+                    xLabelAngle: 25,
+                    data: response,
+                    xkey: 'label',
+                    ykeys: ['value'],
+                    labels: ['Ticket Count'],
+                    resize: true
+                });
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(function () {
+            var url = '@Url.Action("GetMorrisData3","Charts")';
+            $.post(url).then(function (response) {
+                new Morris.Donut({
+                    element: 'MorrisDonutChart1',
+                    gridTextSize: 10,
+                    data: response,
+                    xkey: 'label',
+                    ykeys: ['value'],
+                    labels: ['Ticket Count'],
+                    resize: true
+                });
+            });
+        });
+    </script>
+}

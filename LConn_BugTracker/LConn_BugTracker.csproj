@@ -180,6 +180,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\ChartsController.cs" />
     <Compile Include="Controllers\DemoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -222,6 +223,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\AdminUserViewModel.cs" />
+    <Compile Include="Views\ChartViewModels\ChartViewModels.cs" />
     <Compile Include="ViewModels\UserIndexViewModel.cs" />
     <Compile Include="ViewModels\UserProfileViewModel.cs" />
   </ItemGroup>
@@ -246,8 +248,11 @@
     <Content Include="Avatars\tormund.jpg" />
     <Content Include="Avatars\tyrion.jpg" />
     <Content Include="Avatars\Yet another pic %282%29.jpg" />
+    <Content Include="Content\c3.min.css" />
+    <Content Include="Content\chartist.min.css" />
     <Content Include="Content\dataTables.bootstrap4.css" />
     <Content Include="Content\fullcalendar.min.css" />
+    <Content Include="Content\morris.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\style.css" />
     <Content Include="Fonts\font-awesome.min.css" />
@@ -280,9 +285,12 @@
     <Content Include="Images\xls.png" />
     <Content Include="Images\xlsx.png" />
     <Content Include="Images\zip.png" />
+    <Content Include="Scripts\c3.js" />
     <Content Include="Scripts\calendar.js" />
     <Content Include="Scripts\Chart.min.js" />
+    <Content Include="Scripts\chartist.min.js" />
     <Content Include="Scripts\curvedLines.js" />
+    <Content Include="Scripts\d3.min.js" />
     <Content Include="Scripts\dashboard.js" />
     <Content Include="Scripts\data-table.js" />
     <Content Include="Scripts\dataTables.buttons.min.js" />
@@ -296,9 +304,12 @@
     <Content Include="Scripts\jquery.flot.js" />
     <Content Include="Scripts\jszip.min.js" />
     <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\morris.min.js" />
     <Content Include="Scripts\off-canvas.js" />
+    <Content Include="Scripts\paginate.js" />
     <Content Include="Scripts\pdfmake.min.js" />
     <Content Include="Scripts\progressbar.min.js" />
+    <Content Include="Scripts\raphael.min.js" />
     <Content Include="Scripts\settings.js" />
     <Content Include="Scripts\template.js" />
     <Content Include="Scripts\todolist.js" />
@@ -390,6 +401,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Charts\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Fonts\Roboto\.DS_Store" />
@@ -422,6 +434,15 @@
     <Content Include="Fonts\Simple-Line-Icons.ttf" />
     <Content Include="Fonts\Simple-Line-Icons.woff" />
     <Content Include="Fonts\Simple-Line-Icons.woff2" />
+    <Content Include="Fonts\Karla\.DS_Store" />
+    <Content Include="Fonts\Karla\Karla-Bold.eot" />
+    <Content Include="Fonts\Karla\Karla-Bold.ttf" />
+    <Content Include="Fonts\Karla\Karla-Bold.woff" />
+    <Content Include="Fonts\Karla\Karla-Bold.woff2" />
+    <Content Include="Fonts\Karla\Karla-Regular.eot" />
+    <Content Include="Fonts\Karla\Karla-Regular.ttf" />
+    <Content Include="Fonts\Karla\Karla-Regular.woff" />
+    <Content Include="Fonts\Karla\Karla-Regular.woff2" />
     <None Include="packages.config" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\Register.cshtml" />

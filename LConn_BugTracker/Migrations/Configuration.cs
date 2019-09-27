@@ -417,9 +417,9 @@ namespace LConn_BugTracker.Migrations
 
             context.TicketStatuses.AddOrUpdate(
                 t => t.Name,
-                new TicketStatus { Name = "New / UnAssigned", Description = "New Ticket that not yet been assigned." },
+                new TicketStatus { Name = "New/UnAssigned", Description = "New Ticket that not yet been assigned." },
                 new TicketStatus { Name = "UnAssigned", Description = "Open Ticket that is not currently assigned to anyone." },
-                new TicketStatus { Name = "New / Assigned", Description = "New Ticket has just recently been assigned." },
+                new TicketStatus { Name = "New/Assigned", Description = "New Ticket has just recently been assigned." },
                 new TicketStatus { Name = "Assigned", Description = "Open Ticket that has been assigned but is not currently in progress." },
                 new TicketStatus { Name = "In Progress", Description = "Ticket is in progress and is currently being worked." },
                 new TicketStatus { Name = "Completed", Description = "Ticket has now been completed and closed." },
@@ -452,7 +452,7 @@ namespace LConn_BugTracker.Migrations
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
                     TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Immediate").Id,
-                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New / UnAssigned").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New/UnAssigned").Id,
                     TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Bug").Id,
                 },
                 new Ticket
@@ -464,7 +464,7 @@ namespace LConn_BugTracker.Migrations
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
                     TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "High").Id,
-                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New / Assigned").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New/Assigned").Id,
                     TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Defect").Id,
                 },
                 new Ticket
@@ -536,7 +536,7 @@ namespace LConn_BugTracker.Migrations
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
                     TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Immediate").Id,
-                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New / UnAssigned").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New/UnAssigned").Id,
                     TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Bug").Id,
                 },
                 new Ticket
@@ -548,7 +548,7 @@ namespace LConn_BugTracker.Migrations
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
                     TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "High").Id,
-                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New / Assigned").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New/Assigned").Id,
                     TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Defect").Id,
                 },
                 new Ticket
@@ -620,7 +620,7 @@ namespace LConn_BugTracker.Migrations
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
                     TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Immediate").Id,
-                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New / UnAssigned").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New/UnAssigned").Id,
                     TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Bug").Id,
                 },
                 new Ticket
@@ -632,7 +632,7 @@ namespace LConn_BugTracker.Migrations
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
                     TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "High").Id,
-                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New / Assigned").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New/Assigned").Id,
                     TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Defect").Id,
                 },
                 new Ticket
@@ -704,7 +704,7 @@ namespace LConn_BugTracker.Migrations
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
                     TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Immediate").Id,
-                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New / UnAssigned").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New/UnAssigned").Id,
                     TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Bug").Id,
                 },
                 new Ticket
@@ -716,7 +716,7 @@ namespace LConn_BugTracker.Migrations
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
                     TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "High").Id,
-                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New / Assigned").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New/Assigned").Id,
                     TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Defect").Id,
                 },
                 new Ticket
@@ -788,7 +788,7 @@ namespace LConn_BugTracker.Migrations
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
                     TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Immediate").Id,
-                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New / UnAssigned").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New/UnAssigned").Id,
                     TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Bug").Id,
                 },
                 new Ticket
@@ -800,7 +800,7 @@ namespace LConn_BugTracker.Migrations
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
                     TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "High").Id,
-                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New / Assigned").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New/Assigned").Id,
                     TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Defect").Id,
                 },
                 new Ticket
@@ -872,7 +872,7 @@ namespace LConn_BugTracker.Migrations
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
                     TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Immediate").Id,
-                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New / UnAssigned").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New/UnAssigned").Id,
                     TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Bug").Id,
                 },
                 new Ticket
@@ -884,7 +884,7 @@ namespace LConn_BugTracker.Migrations
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
                     TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "High").Id,
-                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New / Assigned").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New/Assigned").Id,
                     TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Defect").Id,
                 },
                 new Ticket

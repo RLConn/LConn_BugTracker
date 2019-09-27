@@ -26,11 +26,16 @@
     <link rel="stylesheet" href="~/Content/vendor.bundle.base.css" />
     <!-- endinject -->
     <!-- plugin css for this page -->
+    <link rel="stylesheet" href="~/Content/fullcalendar.min.css" />
+    <link rel="stylesheet" href="path-to/node_modules/perfect-scrollbar/dist/css/perfect-scrollbar.min.css" />
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <link rel="stylesheet" href="~/Content/style.css" />
     <link rel="stylesheet" href="~/Content/dataTables.bootstrap4.css" />
     <link rel="stylesheet" href="~/Content/PagedList.css" />
+    <link rel="stylesheet" href="~/Content/chartist.min.css" />
+    <link rel="stylesheet" href="~/Content/morris.css" />
+    <link rel="stylesheet" href="~/Content/c3.min.css" />
     <!-- endinject -->
     <link rel="shortcut icon" href="~/Images/favicon-96x96.png" />
 </head>
@@ -48,7 +53,7 @@
             <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
                 <ul class="navbar-nav mr-lg-2">
                     <li class="nav-item  d-none d-lg-flex">
-                        <a class="nav-link" href="@Url.Action("Calendar","Options")">
+                        <a class="nav-link" href="@Url.Action("Calendar","Home")">
                             Calendar
                         </a>
                     </li>
@@ -67,49 +72,49 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="messageDropdown">
                             <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
-                                <div class="preview-item-content flex-grow">
-                                    <ul>
-                                        @foreach (var notification in NotificationHelper.GetUnreadUserNotifications())
-                                        {
-                                            <li>
-                                                <hr size=3 />
-                                                @using (Html.BeginForm("MarkAsRead", "TicketNotifications"))
-                                                {
-                                                    @Html.AntiForgeryToken()
-                                                    @Html.Hidden("Id", notification.Id)
-                                                    <div class="row">
-                                                        <div class="col-md-2">
-                                                            <figure class="image">
-                                                                <img src="@notification.Sender.AvatarUrl" alt="@notification.Sender.Email" class="img-circle" width="25" />
-                                                            </figure>
-                                                        </div>
-                                                        <div class="col-md-10">
-                                                            <span class="title">@notification.Subject</span>
-                                                        </div>
+                            <div class="preview-item-content flex-grow">
+                                <ul>
+                                    @foreach (var notification in NotificationHelper.GetUnreadUserNotifications())
+                                    {
+                                        <li>
+                                            <hr size=3 />
+                                            @using (Html.BeginForm("MarkAsRead", "TicketNotifications"))
+                                            {
+                                                @Html.AntiForgeryToken()
+                                                @Html.Hidden("Id", notification.Id)
+                                                <div class="row">
+                                                    <div class="col-md-2">
+                                                        <figure class="image">
+                                                            <img src="@notification.Sender.AvatarUrl" alt="@notification.Sender.Email" class="img-circle" width="25" />
+                                                        </figure>
                                                     </div>
-                                                    <br />
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <span class="message text-justify"><b>@notification.NotificationBody</b></span>
-                                                        </div>
+                                                    <div class="col-md-10">
+                                                        <span class="title">@notification.Subject</span>
                                                     </div>
-                                                    <br />
-                                                    <div class="row">
-                                                        <div class="col-md-12 text-center">
-                                                            <button type="submit" class="btn btn-sm btn-outline-primary">Mark as read</button>
-                                                        </div>
+                                                </div>
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <span class="message text-justify"><b>@notification.NotificationBody</b></span>
                                                     </div>
-                                                }
-                                            </li>
-                                        }
-                                    </ul>
-                                    <hr />
-                                    <div class="form-group text-right">
-                                        <div class="btn btn-sm btn-outline-secondary btn-fw">
-                                            <a href="@Url.Action("MyNotifications", "TicketNotifications")" class="view-more">View All</a>
-                                        </div>
+                                                </div>
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-md-12 text-center">
+                                                        <button type="submit" class="btn btn-sm btn-outline-primary">Mark as read</button>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </li>
+                                    }
+                                </ul>
+                                <hr />
+                                <div class="form-group text-right">
+                                    <div class="btn btn-sm btn-outline-secondary btn-fw">
+                                        <a href="@Url.Action("MyNotifications", "TicketNotifications")" class="view-more">View All</a>
                                     </div>
                                 </div>
+                            </div>
                         </div>
                     </li>
 
@@ -124,9 +129,9 @@
                                 <i class="typcn typcn-cog text-primary"></i>
                                 Edit Profile
                             </a>
-                            <a class="dropdown-item" >
+                            <a class="dropdown-item" href="@Url.Action("LogOff","Account")">
                                 <i class="typcn typcn-power text-primary"></i>
-                                Logout
+                                Log Out
                             </a>
                         </div>
                     </li>
@@ -160,16 +165,7 @@
                         </p>
                     </div>
                 </div>
-                @*<div class="nav-search">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Type to search..." aria-label="search" aria-describedby="search">
-                        <div class="input-group-append">
-                            <span class="input-group-text" id="search">
-                                <i class="typcn typcn-zoom"></i>
-                            </span>
-                        </div>
-                    </div>
-                </div>*@
+                
                 <ul class="nav">
                     <li class="nav-item">
                         <a class="nav-link" href="@Url.Action("Dashboard","Home")">
@@ -178,89 +174,83 @@
                         </a>
                     </li>
 
-                         @if (User.IsInRole("Admin"))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="collapse" href="#admin" aria-expanded="false" aria-controls="admin">
-                                    <i class="typcn typcn-user menu-icon"></i>
-                                    <span class="menu-title">Administrator</span>
-                                    <i class="typcn typcn-chevron-right menu-arrow"></i>
-                                </a>
-                                <div class="collapse" id="admin">
-                                    <ul class="nav flex-column sub-menu">
-                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("UserIndex","Admin")">User Index</a></li>
-                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("ManageUsers","Admin")">Manage Users</a></li>
-                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("ManageUserRole","Admin")">Manage User Role</a></li>
-                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("ManageRoles","Admin")">Manage Roles</a></li>
-                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index","Projects")">Manage Projects</a></li>
-                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("ManageUserProjects","Admin")">Manage User Projects</a></li>
-                                    </ul>
-                                </div>
-                            </li>
-                        }
-
+                    @if (User.IsInRole("Admin"))
+                    {
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="collapse" href="#projs" aria-expanded="false" aria-controls="projs">
-                                <i class="icon-notebook menu-icon"></i>
-                                <span class="menu-title">Projects</span>
+                            <a class="nav-link" data-toggle="collapse" href="#admin" aria-expanded="false" aria-controls="admin">
+                                <i class="typcn typcn-user menu-icon"></i>
+                                <span class="menu-title">Administrator</span>
                                 <i class="typcn typcn-chevron-right menu-arrow"></i>
                             </a>
-                            <div class="collapse" id="projs">
+                            <div class="collapse" id="admin">
                                 <ul class="nav flex-column sub-menu">
-                                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index","Projects")">Project Index</a></li>
-                                    @if ((User.IsInRole("Admin")) || (User.IsInRole("ProjectManager")))
-                                    {
-                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Create", "Projects")">Create a Project</a></li>
-                                    }
-                                   
-                                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("ManageUsers","Admin")">Manage Users</a></li>
-                                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("ManagerUserRole","Admin")">Manage User Role</a></li>
+                                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("UserIndex","Admin")">User Index</a></li>
                                     <li class="nav-item"> <a class="nav-link" href="@Url.Action("ManageRoles","Admin")">Manage Roles</a></li>
                                     <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index","Projects")">Manage Projects</a></li>
-                                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("ManageUserProjects","Admin")">Manage User Projects</a></li>
                                 </ul>
                             </div>
                         </li>
+                    }
 
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#projs" aria-expanded="false" aria-controls="projs">
+                            <i class="icon-notebook menu-icon"></i>
+                            <span class="menu-title">Projects</span>
+                            <i class="typcn typcn-chevron-right menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="projs">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index","Projects")">Project Index</a></li>
+                                @if ((User.IsInRole("Admin")) || (User.IsInRole("ProjectManager")))
+                                {
+                                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("Create", "Projects")">Create a Project</a></li>
+                                }
+
+                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("ManageRoles","Admin")">Manage Roles</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index","Projects")">Manage Projects</a></li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#ticks" aria-expanded="false" aria-controls="ticks">
+                            <i class="icon-tag menu-icon"></i>
+                            <span class="menu-title">Ticket Management</span>
+                            <i class="typcn typcn-chevron-right menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="ticks">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index","Tickets")">Ticket List</a></li>
+                                @if (User.IsInRole("Submitter"))
+                                {
+                                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("Create", "Tickets")">Create a Ticket</a></li>
+                                }
+                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index","TicketAttachments")">Ticket Attachments</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index","TicketNotifications")">Notifications</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    @if (User.IsInRole("ProjectManager"))
+                    {
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="collapse" href="#ticks" aria-expanded="false" aria-controls="ticks">
-                                <i class="icon-tag menu-icon"></i>
-                                <span class="menu-title">Ticket Management</span>
-                                <i class="typcn typcn-chevron-right menu-arrow"></i>
+                            <a class="nav-link" href="#">
+                                <i class="typcn typcn-user menu-icon"></i>
+                                <span class="menu-title">Project Managers</span>
                             </a>
-                            <div class="collapse" id="ticks">
-                                <ul class="nav flex-column sub-menu">
-                                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index","Tickets")">Ticket List</a></li>
-                                    @if (User.IsInRole("Submitter"))
-                                    {
-                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Create", "Tickets")">Create a Ticket</a></li>
-                                    }
-                                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index","TicketAttachments")">Ticket Attachments</a></li>
-                                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index","TicketNotifications")">Notifications</a></li>
-                                </ul>
-                            </div>
                         </li>
-                        @if (User.IsInRole("ProjectManager"))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <i class="typcn typcn-user menu-icon"></i>
-                                    <span class="menu-title">Project Managers</span>
-                                </a>
-                            </li>
-                        }
+                    }
 
-                        @if (User.IsInRole("Developer"))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <i class="typcn typcn-user menu-icon"></i>
-                                    <span class="menu-title">Developers</span>
-                                </a>
-                            </li>
-                        }
+                    @if (User.IsInRole("Developer"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="typcn typcn-user menu-icon"></i>
+                                <span class="menu-title">Developers</span>
+                            </a>
+                        </li>
+                    }
 
-                    
+
 
                 </ul>
                 <ul class="sidebar-legend">
@@ -292,19 +282,39 @@
     <script src="~/Scripts/template.js"></script>
     <script src="~/Scripts/settings.js"></script>
     <script src="~/Scripts/todolist.js"></script>
+    <script src="~/Scripts/dashboard.js"></script>
+    <script src="~/Scripts/paginate.js"></script>
     <!-- endinject -->
     <!-- plugin js for this page -->
     <script src="~/Scripts/progressbar.min.js"></script>
     <script src="~/Scripts/Chart.min.js"></script>
+    <script src="~/Scripts/chartist.min.js"></script>
+    <script src="~/Scripts/raphael.min.js"></script>
+    <script src="~/Scripts/morris.min.js"></script>
     <script src="~/Scripts/jquery.flot.js"></script>
     <script src="~/Scripts/curvedLines.js"></script>
+    <script src="~/Scripts/fullcalendar.min.js"></script>
+    <script src="~/Scripts/c3.js"></script>
+    <script src="~/Scripts/d3.min.js"></script>
     <!-- End plugin js for this page -->
     <!-- Custom js for this page-->
     <script src="~/Scripts/dashboard.js"></script>
     <!-- End custom js for this page-->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+
+    <!--Data Tables-->
     <script src="~/Scripts/data-table.js"></script>
     <script src="~/Scripts/jquery.dataTables.js"></script>
+    <script src="~/Scripts/dataTables.buttons.min.js"></script>
+    <script src="~/Scripts/dataTables.colReorder.min.js"></script>
+    <script>
+        $('searchTbl').DataTable({
+            dom: 'Bfrtip',
+            buttons: ['copy', 'excel', 'pdf']
+        });
+    </script>
+
+
     @RenderSection("scripts", required: false)
 </body>
 
