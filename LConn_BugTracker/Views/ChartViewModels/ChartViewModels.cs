@@ -10,4 +10,5 @@ namespace LConn_BugTracker.ChartViewModel
         public string label { get; set; }
         public int value { get; set; }
     }
+
 }

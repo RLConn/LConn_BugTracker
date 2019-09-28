@@ -53,6 +53,11 @@
             <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
                 <ul class="navbar-nav mr-lg-2">
                     <li class="nav-item  d-none d-lg-flex">
+                        <div class="m-5">@DateTime.Now.ToString("dddd, dd MMMM yyyy HH:mm:ss")</div>
+                    </li>
+                </ul>
+                <ul class="navbar-nav mr-lg-2">
+                    <li class="nav-item  d-none d-lg-flex">
                         <a class="nav-link" href="@Url.Action("Calendar","Home")">
                             Calendar
                         </a>

@@ -51,5 +51,6 @@ namespace LConn_BugTracker.Controllers
 
             return Json(dataSet);
         }
+
     }
 }

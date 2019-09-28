@@ -31,6 +31,5 @@ namespace LConn_BugTracker.Helpers
             return Db.Tickets.Where(t => t.AssignedToUserId == userId).Count();
         }
 
-       
     }
 }

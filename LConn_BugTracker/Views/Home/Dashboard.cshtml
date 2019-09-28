@@ -6,6 +6,7 @@
 
 @{
     var ticketHelper = new TicketDecisionHelper();
+    var tkHelper = new TicketHelper();
     var notifiHelper = new NotificationHelper();
     var roleHelper = new UserRolesHelper();
     var projHelper = new ProjectsHelper();
@@ -29,7 +30,7 @@
                         <div class="d-flex flex-row align-items-center">
                             <i class="icon-notebook icon-md"> Total number of Projects</i>
                             <div class="ml-5">
-                                <p class="mt-2 text-lg-right text-reddit h2 card-text">??</p>
+                                <div class="mt-2 text-lg-right text-reddit h2 card-text">@projHelper.CountUserProjects(userId)</div>
                             </div>
                         </div>
                     </div>
@@ -43,7 +44,7 @@
                         <div class="d-flex flex-row align-items-center">
                             <i class="icon-tag icon-md"> Total number of Tickets</i>
                             <div class="ml-5">
-                                <p class="mt-2 text-lg-right text-reddit h2 card-text">??</p>
+                                <div class="mt-2 text-lg-right text-reddit h2 card-text"></div>
                             </div>
                         </div>
                     </div>
@@ -226,4 +227,6 @@
             });
         });
     </script>
+
+    
 }

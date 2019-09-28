@@ -39,6 +39,15 @@ namespace LConn_BugTracker.Helpers
             var projects = user.Projects.ToList();
             return (projects);
         }
+
+        public int CountUserProjects(string userId)
+        {
+            ApplicationUser user = Db.Users.Find(userId);
+
+        
+            return (user.Projects.Count());
+        }
+
         public void AddUserToProject(string userId, int projectId)
         {
             if (!IsUserOnProject(userId, projectId))
