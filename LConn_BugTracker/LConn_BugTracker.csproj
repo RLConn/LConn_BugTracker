@@ -305,6 +305,8 @@
     <Content Include="Scripts\jquery.dataTables.js" />
     <Content Include="Scripts\jquery.flot.js" />
     <Content Include="Scripts\jszip.min.js" />
+    <Content Include="Scripts\just-gage.js" />
+    <Content Include="Scripts\justgage.js" />
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\morris.js" />
     <Content Include="Scripts\morris.min.js" />
@@ -312,6 +314,7 @@
     <Content Include="Scripts\paginate.js" />
     <Content Include="Scripts\pdfmake.min.js" />
     <Content Include="Scripts\progressbar.min.js" />
+    <Content Include="Scripts\raphael-2.1.4.min.js" />
     <Content Include="Scripts\raphael.min.js" />
     <Content Include="Scripts\settings.js" />
     <Content Include="Scripts\template.js" />

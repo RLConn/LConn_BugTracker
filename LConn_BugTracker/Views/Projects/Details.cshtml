@@ -1,70 +1,191 @@
 ﻿@model LConn_BugTracker.Models.Project
 
-@{
-    ViewBag.Title = "Details";
-}
 
-<h2>Project details and User Assignment</h2>
+<!DOCTYPE html>
+
+@*@{
+        ViewBag.Title = "Details";
+    }
+
+    <h2>Project details and User Assignment</h2>
 
     <div>
         <dl class="dl-horizontal">
             <dt>
                 @Html.DisplayNameFor(model => model.Name)
             </dt>
-    
+
             <dd>
                 @Html.DisplayFor(model => model.Name)
             </dd>
-    
+
             <dt>
                 @Html.DisplayNameFor(model => model.Description)
             </dt>
-    
+
             <dd>
                 @Html.DisplayFor(model => model.Description)
             </dd>
-    
+
             <dt>
                 @Html.DisplayNameFor(model => model.Created)
             </dt>
-    
+
             <dd>
                 @Html.DisplayFor(model => model.Created)
             </dd>
-    
+
         </dl>
     </div>
     <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.Id}) |
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
         @Html.ActionLink("Back to List", "Index")
-    </p>
+    </p>*@
 
 @*Will use two rows to layout user assignment. Top row will be ListBoxes and the bottom row is just the submit button*@
-<hr />
+@*<hr />
 
-@using (Html.BeginForm("ManageProjectUsers", "Admin", FormMethod.Post))
-{
-    @Html.AntiForgeryToken()
-    @Html.Hidden("ProjectId",Model.Id)
+    @using (Html.BeginForm("ManageProjectUsers", "Admin", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.Hidden("ProjectId", Model.Id)
 
-    <div class="row">
-        <div class="col-md-4 text-center">
-            <h2>Project Manager</h2>
-            @Html.ListBox("ProjectManagers")
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <h2>Project Manager</h2>
+                @Html.ListBox("ProjectManagers")
+            </div>
+            <div class="col-md-4 text-center">
+                <h2>Developers</h2>
+                @Html.ListBox("Developers")
+            </div>
+            <div class="col-md-4 text-center">
+                <h2>Submitters</h2>
+                @Html.ListBox("Submitters")
+            </div>
         </div>
-        <div class="col-md-4 text-center">
-            <h2>Developers</h2>
-            @Html.ListBox("Developers")
+
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <button type="submit" class="btn btn-primary btn-lg">ASSIGN</button>
+            </div>
         </div>
-        <div class="col-md-4 text-center">
-            <h2>Submitters</h2>
-            @Html.ListBox("Submitters")
+    }*@
+
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="col-md-12 grid-margin">
+                <div class="card d-flex align-items-center">
+                    <div class="card-body">
+                        <div class="d-flex flex-row align-items-center">
+                            <i class="icon-notebook icon-md"> Project</i>
+                            <div class="ml-5">
+                                <p class="mt-2 text-lg-right text-success h2 card-text">@Model.Name</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-sm-flex flex-row flex-wrap text-center text-sm-left align-items-center">
+                            <i class="icon-tag icon-md"> Description</i>
+                            <div class="ml-sm-3 ml-md-0 ml-xl-3 mt-2 mt-sm-0 mt-md-2 mt-xl-0">
+                                <p class="mb-lg-0 text-info font-weight-bold">@Model.Description</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 grid-margin">
+                <div class="card d-flex align-items-center">
+                    <div class="card-body">
+                        <div class="d-flex flex-row align-items-center">
+                            <i class="icon-people icon-md"> # Developers on Project</i>
+                            <div class="ml-5">
+                                <div class="mt-2 text-lg-right text-reddit h2 card-text"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 grid-margin">
+                <div class="card d-flex align-items-center">
+                    <div class="card-body">
+                        <div class="d-flex flex-row align-items-center">
+                            <i class="icon-people icon-md"> # Submitters on Project</i>
+                            <div class="ml-5">
+                                <div class="mt-2 text-lg-right text-reddit h2 card-text"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row  mt-3">
+            <div class="col-xl-5 d-flex grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex flex-wrap justify-content-between">
+                            <h4 class="card-title mb-3">Sessions by Channel</h4>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div id="circleProgress7" class="progressbar-js-circle rounded p-3"><svg viewBox="0 0 100 100" style="display: block; width: 100%;"><path d="M 50,50 m 0,-45 a 45,45 0 1 1 0,90 a 45,45 0 1 1 0,-90" stroke="#1f2130" stroke-width="10" fill-opacity="0"></path><path d="M 50,50 m 0,-45 a 45,45 0 1 1 0,90 a 45,45 0 1 1 0,-90" stroke="rgb(46,32,199)" stroke-width="10" fill-opacity="0" style="stroke-dasharray: 282.783, 282.783; stroke-dashoffset: 70.6958;"></path></svg><div class="progressbar-text" style="position: absolute; left: 50%; top: 50%; padding: 0px; margin: 0px; transform: translate(-50%, -50%); color: rgb(156, 159, 166); font-size: 1.875rem; font-weight: 700;"><p class="text-center mb-0">Score</p>75%</div></div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <ul class="session-by-channel-legend">
+                                            <li>
+                                                <div>Firewalls(3)</div>
+                                                <div>4(100%)</div>
+                                            </li>
+                                            <li>
+                                                <div>Ports(12)</div>
+                                                <div>12(100%)</div>
+                                            </li>
+                                            <li>
+                                                <div>Servers(233)</div>
+                                                <div>2(100%)</div>
+                                            </li>
+                                            <li>
+                                                <div>Firewalls(3)</div>
+                                                <div>7(100%)</div>
+                                            </li>
+                                            <li>
+                                                <div>Firewalls(3)</div>
+                                                <div>6(70%)</div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
-
-    <div class="row">
-        <div class="col-md-12 text-center">
-            <button type="submit" class="btn btn-primary btn-lg">ASSIGN</button>
+    <!-- content-wrapper ends -->
+    <!-- partial:partials/_footer.html -->
+    <footer class="footer">
+        <div class="d-sm-flex justify-content-center justify-content-sm-between">
+            <span class="text-center text-sm-left d-block d-sm-inline-block">Copyright © 2019. All rights reserved.</span>
+            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted &amp; made with <i class="typcn typcn-heart text-danger"></i></span>
         </div>
-    </div>
-}
+    </footer>
+    <!-- partial -->
+</div>
+
