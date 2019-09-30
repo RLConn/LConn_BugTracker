@@ -560,6 +560,8 @@
     <Content Include="Content\dark\_typography.scss" />
     <Content Include="Content\dark\_utilities.scss" />
     <Content Include="Content\dark\_variables.scss" />
+    <Content Include="package.json" />
+    <Content Include="package-lock.json" />
     <None Include="packages.config" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\Register.cshtml" />

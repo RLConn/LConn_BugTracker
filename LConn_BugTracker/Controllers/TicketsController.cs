@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity;
 
 namespace LConn_BugTracker.Controllers
 {
+    [RequireHttps]
     [Authorize]
     public class TicketsController : Controller
     {
@@ -97,18 +98,22 @@ namespace LConn_BugTracker.Controllers
                 return HttpNotFound();
             }
 
-            if (!TicketDecisionHelper.TicketIsEditableByUser(ticket))
-            {
-                TempData["Message"] = "You are not authorized to edit Ticket Id " + ticket.Id + " based upon your assigned role.";
-                return RedirectToAction("Index", "Tickets");
-            }
-            
+            var decisionHelper = new TicketDecisionHelper();
+            if (TicketDecisionHelper.TicketIsEditableByUser(ticket))
+            { 
             ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FullName", ticket.AssignedToUserId);
             ViewBag.ProjectId = new SelectList(db.Projects, "ID", "Name", ticket.ProjectId);
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
             ViewBag.TicketStatusId = new SelectList(db.TicketStatuses, "Id", "Name", ticket.TicketStatusId);
             ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name", ticket.TicketTypeId);
+
             return View(ticket);
+            }
+            else
+            {
+                TempData["Message"] = "You are not authorized to edit Ticket Id " + ticket.Id + " based upon your assigned role.";
+                return RedirectToAction("Index", "Tickets");
+            }
         }
 
         // POST: Tickets/Edit/5
@@ -136,8 +141,8 @@ namespace LConn_BugTracker.Controllers
                 var assignment = (string.IsNullOrEmpty(oldTicket.AssignedToUserId));
                 var unassignment = (string.IsNullOrEmpty(newTicket.AssignedToUserId));
 
-                var ActiveStatusId = db.TicketStatuses.FirstOrDefault(ts => ts.Name == "Active/Assigned").Id;
-                var InactiveStatusId = db.TicketStatuses.FirstOrDefault(ts => ts.Name == "Inactive").Id;
+                var ActiveStatusId = db.TicketStatuses.FirstOrDefault(ts => ts.Name == "Assigned").Id;
+                var InactiveStatusId = db.TicketStatuses.FirstOrDefault(ts => ts.Name == "UnAssigned").Id;
 
                 if (assignment) newTicket.TicketStatusId = ActiveStatusId;
                 if (unassignment) newTicket.TicketStatusId = InactiveStatusId;
