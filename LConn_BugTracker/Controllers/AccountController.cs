@@ -480,6 +480,12 @@ namespace LConn_BugTracker.Controllers
             return RedirectToAction("Login", "Home");
         }
 
+        public ActionResult SpecialLogOff()
+        {
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            return RedirectToAction("Goodbye", "Home");
+        }
+
         //
         // GET: /Account/ExternalLoginFailure
         [AllowAnonymous]

@@ -56,15 +56,6 @@
             <div class="col-lg-4 grid-margin grid-margin-lg-0 stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="icon-tag icon-md"> Ticket Priority Breakdown</h4>
-                        <div id="MorrisBarChart1" class="col-md-12 chart01P"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 grid-margin grid-margin-lg-0 stretch-card">
-                <div class="card">
-                    <div class="card-body">
                         <h4 class="icon-tag icon-md"> Ticket Status Breakdown</h4>
                         <div id="MorrisDonutChart1" class="col-md-12 chart01P"></div>
                     </div>
@@ -74,13 +65,23 @@
             <div class="col-lg-4 grid-margin grid-margin-lg-0 stretch-card">
                 <div class="card">
                     <div class="card-body">
+                        <h4 class="icon-tag icon-md"> Ticket Priority Breakdown</h4>
+                        <div id="MorrisBarChart1" class="col-md-12 chart01P"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 grid-margin grid-margin-lg-0 stretch-card">
+                <div class="card">
+                    <div class="card-body">
                         <h4 class="icon-tag icon-md"> Ticket Category Breakdown</h4>
-                        <div id="MorrisBarChart2" class="col-md-12 chart01P"></div>
+                        <div id="MorrisDonutChart3" class="col-md-12 chart01P"></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
     <div class="content-wrapper">
         <div class="row">
             <div class="col-lg-12 grid-margin grid-margin-lg-0 stretch-card">
@@ -181,8 +182,9 @@
             $.post(url).then(function (response) {
                 new Morris.Bar({
                     element: 'MorrisBarChart1',
-                    gridTextSize: 9,
-                    xLabelAngle: 25,
+                    barColors: ['#F36368', '#76C1FA', '#63CF72', '#FABA66', '#C61AFF', '#0033CC','#E6E600'],
+                    gridTextSize: 14,
+                    xLabelAngle:45,
                     data: response,
                     xkey: 'label',
                     ykeys: ['value'],
@@ -197,10 +199,9 @@
         $(function () {
             var url = '@Url.Action("GetMorrisData2","Charts")';
             $.post(url).then(function (response) {
-                new Morris.Bar({
-                    element: 'MorrisBarChart2',
-                    gridTextSize: 9,
-                    xLabelAngle: 25,
+                new Morris.Donut({
+                    element: 'MorrisDonutChart2',
+                    gridTextSize: 10,
                     data: response,
                     xkey: 'label',
                     ykeys: ['value'],
@@ -217,16 +218,36 @@
             $.post(url).then(function (response) {
                 new Morris.Donut({
                     element: 'MorrisDonutChart1',
+                    colors: ['#76C1FA', '#F36368', '#63CF72', '#FABA66', '#C61AFF', '#0033CC','#E6E600'],
                     gridTextSize: 10,
                     data: response,
                     xkey: 'label',
                     ykeys: ['value'],
                     labels: ['Ticket Count'],
+                    labelColor: "#b1b1b5",
                     resize: true
                 });
             });
         });
     </script>
 
-    
+    <script type="text/javascript">
+        $(function () {
+            var url = '@Url.Action("GetMorrisData2","Charts")';
+            $.post(url).then(function (response) {
+                new Morris.Donut({
+                    element: 'MorrisDonutChart3',
+                    colors: ['#76C1FA', '#F36368', '#63CF72', '#FABA66', '#C61AFF', '#0033CC','#E6E600'],
+                    gridTextSize: 10,
+                    data: response,
+                    xkey: 'label',
+                    ykeys: ['value'],
+                    labels: ['Ticket Count'],
+                    labelColor: "#b1b1b5",
+                    resize: true
+                });
+            });
+        });
+    </script>
+
 }

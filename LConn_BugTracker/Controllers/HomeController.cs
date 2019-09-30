@@ -34,5 +34,10 @@ namespace LConn_BugTracker.Controllers
         {
             return View();
         }
+
+        public ActionResult Goodbye()
+        {
+            return View();
+        }
     }
 }

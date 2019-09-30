@@ -79,5 +79,6 @@ namespace LConn_BugTracker.Helpers
         {
             return Db.Users.Where(u => u.Projects.All(p => p.Id != projectId)).ToList();
         }
+
     }
 }

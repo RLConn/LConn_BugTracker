@@ -18,7 +18,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="keywords" content="MVC C# JS jquery HTML">
     <meta name="author" content="Lee Connelly">
-    <title>LConn BugTracker</title>
+    <title>LC BGTRKR</title>
     <!-- base:css -->
     <link rel="stylesheet" href="~/Fonts/typicons.css" />
     <link rel="stylesheet" href="~/Fonts/simple-line-icons.css" />
@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="~/Content/vendor.bundle.base.css" />
     <!-- endinject -->
     <!-- plugin css for this page -->
+
     <link rel="stylesheet" href="~/Content/fullcalendar.min.css" />
     <link rel="stylesheet" href="path-to/node_modules/perfect-scrollbar/dist/css/perfect-scrollbar.min.css" />
     <!-- End plugin css for this page -->
@@ -58,7 +59,7 @@
                 </ul>
                 <ul class="navbar-nav mr-lg-2">
                     <li class="nav-item  d-none d-lg-flex">
-                        <a class="nav-link" href="@Url.Action("Calendar","Home")">
+                        <a class="nav-link icon-calendar" href="@Url.Action("Calendar","Home")">
                             Calendar
                         </a>
                     </li>
@@ -72,7 +73,7 @@
 
                     <li class="nav-item dropdown d-flex">
                         <a class="nav-link count-indicator dropdown-toggle d-flex justify-content-center align-items-center" id="messageDropdown" href="#" data-toggle="dropdown">
-                            <i class="typcn typcn-message-typing"></i>
+                            <i class="icon-bell"></i>
                             <span class="count bg-success">@NotificationHelper.GetAllUserNoticationCount()</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="messageDropdown">
@@ -125,17 +126,17 @@
 
                     <li class="nav-item nav-profile dropdown">
                         <a class="nav-link dropdown-toggle  pl-0 pr-0" href="#" data-toggle="dropdown" id="profileDropdown">
-                            <i class="typcn typcn-user-outline mr-0"></i>
+                            <i class="icon-user-following mr-0"></i>
                             <span class="nav-profile-name">@user.DisplayName</span>
                             <span class="role">, @user.Email</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
                             <a class="dropdown-item" href="@Url.Action("EditProfile","Members")">
-                                <i class="typcn typcn-cog text-primary"></i>
+                                <i class="icon-settings text-primary"></i>
                                 Edit Profile
                             </a>
-                            <a class="dropdown-item" href="@Url.Action("LogOff","Account")">
-                                <i class="typcn typcn-power text-primary"></i>
+                            <a class="dropdown-item" href="@Url.Action("SpecialLogOff","Account")">
+                                <i class="icon-power text-primary"></i>
                                 Log Out
                             </a>
                         </div>
@@ -170,11 +171,51 @@
                         </p>
                     </div>
                 </div>
-                
+
                 <ul class="nav">
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="icon-user menu-icon"></i>
+                                <span class="menu-title">Admin</span>
+                            </a>
+                        </li>
+                    }
+
+                    @if (User.IsInRole("ProjectManager"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="icon-user menu-icon"></i>
+                                <span class="menu-title">Project Manager</span>
+                            </a>
+                        </li>
+                    }
+
+                    @if (User.IsInRole("Developer"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="icon-user menu-icon"></i>
+                                <span class="menu-title">Developer</span>
+                            </a>
+                        </li>
+                    }
+
+                    @if (User.IsInRole("Submitter"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="icon-user menu-icon"></i>
+                                <span class="menu-title">Submitter</span>
+                            </a>
+                        </li>
+                    }
+
                     <li class="nav-item">
                         <a class="nav-link" href="@Url.Action("Dashboard","Home")">
-                            <i class="typcn typcn-device-desktop menu-icon"></i>
+                            <i class="icon-screen-desktop menu-icon"></i>
                             <span class="menu-title">Dashboard </span>
                         </a>
                     </li>
@@ -183,7 +224,7 @@
                     {
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="collapse" href="#admin" aria-expanded="false" aria-controls="admin">
-                                <i class="typcn typcn-user menu-icon"></i>
+                                <i class="icon-user menu-icon"></i>
                                 <span class="menu-title">Administrator</span>
                                 <i class="typcn typcn-chevron-right menu-arrow"></i>
                             </a>
@@ -211,7 +252,6 @@
                                     <li class="nav-item"> <a class="nav-link" href="@Url.Action("Create", "Projects")">Create a Project</a></li>
                                 }
 
-                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("ManageRoles","Admin")">Manage Roles</a></li>
                                 <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index","Projects")">Manage Projects</a></li>
                             </ul>
                         </div>
@@ -235,25 +275,7 @@
                             </ul>
                         </div>
                     </li>
-                    @if (User.IsInRole("ProjectManager"))
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="typcn typcn-user menu-icon"></i>
-                                <span class="menu-title">Project Managers</span>
-                            </a>
-                        </li>
-                    }
 
-                    @if (User.IsInRole("Developer"))
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="typcn typcn-user menu-icon"></i>
-                                <span class="menu-title">Developers</span>
-                            </a>
-                        </li>
-                    }
 
 
 
@@ -262,9 +284,13 @@
                     <li>
                         <p class="sidebar-menu-title">Category</p>
                     </li>
-                    <li class="nav-item"><a href="#" class="nav-link">#@TicketHelper.GetTicketTotalCount() Tickets</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link">#Projects</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link">#Developers</a></li>
+                    <li class="nav-item"><a href="@Url.Action("Index","Tickets")" class="nav-link">Tickets</a></li>
+                    <li class="nav-item"><a href="@Url.Action("Index","Projects")" class="nav-link">Projects</a></li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="nav-item"><a href="@Url.Action("UserIndex","Admin")" class="nav-link">Users</a></li>
+                    }
+
                 </ul>
             </nav>
             <!-- partial -->
@@ -292,6 +318,7 @@
     <!-- endinject -->
     <!-- plugin js for this page -->
     <script src="~/Scripts/progressbar.min.js"></script>
+    <script src="~/Scripts/chart.js"></script>
     <script src="~/Scripts/Chart.min.js"></script>
     <script src="~/Scripts/chartist.min.js"></script>
     <script src="~/Scripts/raphael.min.js"></script>
@@ -308,10 +335,9 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 
     <!--Data Tables-->
-    <script src="~/Scripts/data-table.js"></script>
     <script src="~/Scripts/jquery.dataTables.js"></script>
-    <script src="~/Scripts/dataTables.buttons.min.js"></script>
-    <script src="~/Scripts/dataTables.colReorder.min.js"></script>
+    <script src="~/Scripts/dataTables.bootstrap4.js"></script>
+    <script src="~/Scripts/data-table.js"></script>
     <script>
         $('searchTbl').DataTable({
             dom: 'Bfrtip',

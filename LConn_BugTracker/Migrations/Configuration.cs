@@ -355,53 +355,53 @@ namespace LConn_BugTracker.Migrations
                     new Project { Name = "LConn Blog", Description = "This the Blog Project that is now out in the wilds of the web.", Created = DateTime.Now },
                     new Project { Name = "Portfolio", Description = "This is the Portfolio Project that is now out in the wilds of the web.", Created = DateTime.Now },
                     new Project { Name = "BugTracker", Description = "This is the BugTracker Project that is now out in the wilds of the web.", Created = DateTime.Now},
-                    new Project { Name = "Colon Study", Description = "This is the Colon Study Project that is now out in the wilds of the web.", Created = DateTime.Now },
-                    new Project { Name = "Motor Evaluation", Description = "This is the Motor Evaluation Project that is now out in the wilds of the web.", Created = DateTime.Now },
-                    new Project { Name = "Widget Alignment", Description = "This is the Widget Alignment Project that is now out in the wilds of the web.", Created = DateTime.Now }
+                    new Project { Name = "Financial Advisor", Description = "This is the Financial Advisor Project that is now out in the wilds of the web.", Created = DateTime.Now },
+                    new Project { Name = "Marketing Evaluation", Description = "This is the Marketing Evaluation Project that is now out in the wilds of the web.", Created = DateTime.Now },
+                    new Project { Name = "Widget Sales", Description = "This is the Widget Sales Project that is now out in the wilds of the web.", Created = DateTime.Now }
                 );
 
             context.SaveChanges();
             #endregion
 
             #region Project Assignment
-            var blogProjectId = context.Projects.FirstOrDefault(p => p.Name == "LConn Blog").Id;
-            var porfolioProjectId = context.Projects.FirstOrDefault(p => p.Name == "Portfolio").Id;
-            var bugTrackerProjectId = context.Projects.FirstOrDefault(p => p.Name == "BugTracker").Id;
-            var colonProjectId = context.Projects.FirstOrDefault(p => p.Name == "Colon Study").Id;
-            var motorProjectId = context.Projects.FirstOrDefault(p => p.Name == "Motor Evaluation").Id;
-            var widgetProjectId = context.Projects.FirstOrDefault(p => p.Name == "Widget Alignment").Id;
+            var bloProjectId = context.Projects.FirstOrDefault(p => p.Name == "LConn Blog").Id;
+            var porProjectId = context.Projects.FirstOrDefault(p => p.Name == "Portfolio").Id;
+            var bugProjectId = context.Projects.FirstOrDefault(p => p.Name == "BugTracker").Id;
+            var finProjectId = context.Projects.FirstOrDefault(p => p.Name == "Financial Advisor").Id;
+            var marProjectId = context.Projects.FirstOrDefault(p => p.Name == "Marketing Evaluation").Id;
+            var widProjectId = context.Projects.FirstOrDefault(p => p.Name == "Widget Sales").Id;
 
             var projectHelper = new ProjectsHelper();
 
             //Assign a PM, a Sub and a Dev to the Blog project
-            projectHelper.AddUserToProject(projId, blogProjectId);
-            projectHelper.AddUserToProject(subId, blogProjectId);
-            projectHelper.AddUserToProject(deveId, blogProjectId);
+            projectHelper.AddUserToProject(projId, bloProjectId);
+            projectHelper.AddUserToProject(subId, bloProjectId);
+            projectHelper.AddUserToProject(deveId, bloProjectId);
 
             //Assign a PM, a Sub and a Dev to the Portfolio project
-            projectHelper.AddUserToProject(nprojId, porfolioProjectId);
-            projectHelper.AddUserToProject(nsubId, porfolioProjectId);
-            projectHelper.AddUserToProject(ndeveId, porfolioProjectId);
+            projectHelper.AddUserToProject(nprojId, porProjectId);
+            projectHelper.AddUserToProject(nsubId, porProjectId);
+            projectHelper.AddUserToProject(ndeveId, porProjectId);
 
             //Assign a PM, a Sub and a Dev  to the BugTracker project
-            projectHelper.AddUserToProject(oprojId, bugTrackerProjectId);
-            projectHelper.AddUserToProject(osubId, bugTrackerProjectId);
-            projectHelper.AddUserToProject(odeveId, bugTrackerProjectId);
+            projectHelper.AddUserToProject(oprojId, bugProjectId);
+            projectHelper.AddUserToProject(osubId, bugProjectId);
+            projectHelper.AddUserToProject(odeveId, bugProjectId);
 
-            //Assign a PM, a Sub and a Dev  to the Colon Study project
-            projectHelper.AddUserToProject(projId, colonProjectId);
-            projectHelper.AddUserToProject(isubId, colonProjectId);
-            projectHelper.AddUserToProject(ideveId, colonProjectId);
+            //Assign a PM, a Sub and a Dev  to the Financial Advisor project
+            projectHelper.AddUserToProject(projId, finProjectId);
+            projectHelper.AddUserToProject(isubId, finProjectId);
+            projectHelper.AddUserToProject(ideveId, finProjectId);
 
-            //Assign a PM, a Sub and a Dev  to the Motor Evaluation project
-            projectHelper.AddUserToProject(nprojId, motorProjectId);
-            projectHelper.AddUserToProject(asubId, motorProjectId);
-            projectHelper.AddUserToProject(adeveId, motorProjectId);
+            //Assign a PM, a Sub and a Dev  to the Marketing Evaluation project
+            projectHelper.AddUserToProject(nprojId, marProjectId);
+            projectHelper.AddUserToProject(asubId, marProjectId);
+            projectHelper.AddUserToProject(adeveId, marProjectId);
 
-            //Assign the Demo PM, a Sub and a Dev  to the Widget Alignment project
-            projectHelper.AddUserToProject(demoProjId, widgetProjectId);
-            projectHelper.AddUserToProject(demoSubId, widgetProjectId);
-            projectHelper.AddUserToProject(demoDevId, widgetProjectId);
+            //Assign the Demo PM, a Sub and a Dev  to the Widget Sales project
+            projectHelper.AddUserToProject(demoProjId, widProjectId);
+            projectHelper.AddUserToProject(demoSubId, widProjectId);
+            projectHelper.AddUserToProject(demoDevId, widProjectId);
 
             #endregion
 
@@ -446,77 +446,79 @@ namespace LConn_BugTracker.Migrations
                 //Blog Project tickets
                 new Ticket
                 {
-                    ProjectId = blogProjectId,
+                    ProjectId = bloProjectId,
                     OwnerUserId = subId,
+                    AssignedToUserId = deveId,
                     Title = "Blog Ticket #1",
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
                     TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Immediate").Id,
-                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New/UnAssigned").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New/Assigned").Id,
                     TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Bug").Id,
                 },
                 new Ticket
                 {
-                    ProjectId = blogProjectId,
+                    ProjectId = bloProjectId,
                     OwnerUserId = subId,
                     AssignedToUserId = deveId,
                     Title = "Blog Ticket #2",
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
                     TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "High").Id,
-                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New/Assigned").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "In Progress").Id,
                     TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Defect").Id,
                 },
                 new Ticket
                 {
-                    ProjectId = blogProjectId,
+                    ProjectId = bloProjectId,
                     OwnerUserId = subId,
+                    AssignedToUserId = deveId,
                     Title = "Blog Ticket #3",
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
                     TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
-                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "UnAssigned").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "Assigned").Id,
                     TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Feature Request").Id,
                 },
                 new Ticket
                 {
-                    ProjectId = blogProjectId,
+                    ProjectId = bloProjectId,
                     OwnerUserId = subId,
                     AssignedToUserId = deveId,
                     Title = "Blog Ticket #4",
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
-                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Low").Id,
+                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
                     TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "Assigned").Id,
                     TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Documentation Request").Id,
                 },
                 new Ticket
                 {
-                    ProjectId = blogProjectId,
+                    ProjectId = bloProjectId,
                     OwnerUserId = subId,
                     AssignedToUserId = deveId,
                     Title = "Blog Ticket #5",
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
-                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
+                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Low").Id,
                     TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "In Progress").Id,
                     TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Training Request").Id,
                 },
                 new Ticket
                 {
-                    ProjectId = blogProjectId,
+                    ProjectId = bloProjectId,
                     OwnerUserId = subId,
                     AssignedToUserId = deveId,
                     Title = "Blog Ticket #6",
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
-                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Low").Id,
-                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "Completed").Id,
+                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "None").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "Archived").Id,
                     TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Complaint").Id,
                 },
                 new Ticket
                 {
-                    ProjectId = blogProjectId,
+                    ProjectId = bloProjectId,
                     OwnerUserId = subId,
                     AssignedToUserId = deveId,
                     Title = "Blog Ticket #7",
@@ -530,18 +532,19 @@ namespace LConn_BugTracker.Migrations
                 //Portfolio Project Tickets
                 new Ticket
                 {
-                    ProjectId = porfolioProjectId,
+                    ProjectId = porProjectId,
                     OwnerUserId = nsubId,
+                    AssignedToUserId = ndeveId,
                     Title = "Portfolio Ticket #1",
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
-                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Immediate").Id,
-                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New/UnAssigned").Id,
+                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "High").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New/Assigned").Id,
                     TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Bug").Id,
                 },
                 new Ticket
                 {
-                    ProjectId = porfolioProjectId,
+                    ProjectId = porProjectId,
                     OwnerUserId = nsubId,
                     AssignedToUserId = ndeveId,
                     Title = "Portfolio Ticket #2",
@@ -553,30 +556,31 @@ namespace LConn_BugTracker.Migrations
                 },
                 new Ticket
                 {
-                    ProjectId = porfolioProjectId,
+                    ProjectId = porProjectId,
                     OwnerUserId = nsubId,
+                    AssignedToUserId = ndeveId,
                     Title = "Portfolio Ticket #3",
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
-                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
-                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "UnAssigned").Id,
+                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Low").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "Assigned").Id,
                     TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Feature Request").Id,
                 },
                 new Ticket
                 {
-                    ProjectId = porfolioProjectId,
+                    ProjectId = porProjectId,
                     OwnerUserId = nsubId,
                     AssignedToUserId = ndeveId,
                     Title = "Portfolio Ticket #4",
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
-                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Low").Id,
-                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "Assigned").Id,
+                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "In Progress").Id,
                     TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Documentation Request").Id,
                 },
                 new Ticket
                 {
-                    ProjectId = porfolioProjectId,
+                    ProjectId = porProjectId,
                     OwnerUserId = nsubId,
                     AssignedToUserId = ndeveId,
                     Title = "Portfolio Ticket #5",
@@ -588,19 +592,19 @@ namespace LConn_BugTracker.Migrations
                 },
                 new Ticket
                 {
-                    ProjectId = porfolioProjectId,
+                    ProjectId = porProjectId,
                     OwnerUserId = nsubId,
                     AssignedToUserId = ndeveId,
                     Title = "Portfolio Ticket #6",
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
-                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Low").Id,
-                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "Completed").Id,
+                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "None").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "Archived").Id,
                     TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Complaint").Id,
                 },
                 new Ticket
                 {
-                    ProjectId = porfolioProjectId,
+                    ProjectId = porProjectId,
                     OwnerUserId = nsubId,
                     AssignedToUserId = ndeveId,
                     Title = "Portfolio Ticket #7",
@@ -614,18 +618,19 @@ namespace LConn_BugTracker.Migrations
                 //BugTracker Tickets
                 new Ticket
                 {
-                    ProjectId = bugTrackerProjectId,
+                    ProjectId = bugProjectId,
                     OwnerUserId = osubId,
+                    AssignedToUserId = odeveId,
                     Title = "BugTracker Ticket #1",
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
-                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Immediate").Id,
-                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New/UnAssigned").Id,
+                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "High").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New/Assigned").Id,
                     TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Bug").Id,
                 },
                 new Ticket
                 {
-                    ProjectId = bugTrackerProjectId,
+                    ProjectId = bugProjectId,
                     OwnerUserId = osubId,
                     AssignedToUserId = odeveId,
                     Title = "BugTracker Ticket #2",
@@ -637,18 +642,19 @@ namespace LConn_BugTracker.Migrations
                 },
                 new Ticket
                 {
-                    ProjectId = bugTrackerProjectId,
+                    ProjectId = bugProjectId,
                     OwnerUserId = osubId,
+                    AssignedToUserId = odeveId,
                     Title = "BugTracker Ticket #3",
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
                     TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
-                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "UnAssigned").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "In Progress").Id,
                     TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Feature Request").Id,
                 },
                 new Ticket
                 {
-                    ProjectId = bugTrackerProjectId,
+                    ProjectId = bugProjectId,
                     OwnerUserId = osubId,
                     AssignedToUserId = odeveId,
                     Title = "BugTracker Ticket #4",
@@ -660,31 +666,31 @@ namespace LConn_BugTracker.Migrations
                 },
                 new Ticket
                 {
-                    ProjectId = bugTrackerProjectId,
+                    ProjectId = bugProjectId,
                     OwnerUserId = osubId,
                     AssignedToUserId = odeveId,
                     Title = "BugTracker Ticket #5",
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
                     TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
-                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "In Progress").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "Completed").Id,
                     TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Training Request").Id,
                 },
                 new Ticket
                 {
-                    ProjectId = bugTrackerProjectId,
+                    ProjectId = bugProjectId,
                     OwnerUserId = osubId,
                     AssignedToUserId = odeveId,
                     Title = "BugTracker Ticket #6",
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
-                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Low").Id,
-                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "Completed").Id,
+                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "None").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "Archived").Id,
                     TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Complaint").Id,
                 },
                 new Ticket
                 {
-                    ProjectId = bugTrackerProjectId,
+                    ProjectId = bugProjectId,
                     OwnerUserId = osubId,
                     AssignedToUserId = odeveId,
                     Title = "BugTracker Ticket #7",
@@ -692,50 +698,52 @@ namespace LConn_BugTracker.Migrations
                     Created = DateTime.Now,
                     TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "None").Id,
                     TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "Archived").Id,
-                    TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Other").Id,
+                    TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Bug").Id,
                 },
 
-                //Colon Study Tickets
+                //Financial Advisor Tickets
                 new Ticket
                 {
-                    ProjectId = colonProjectId,
+                    ProjectId = finProjectId,
                     OwnerUserId = isubId,
-                    Title = "Colon Study Ticket #1",
+                    AssignedToUserId = ideveId,
+                    Title = "Financial Advisor Ticket #1",
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
                     TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Immediate").Id,
-                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New/UnAssigned").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New/Assigned").Id,
                     TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Bug").Id,
                 },
                 new Ticket
                 {
-                    ProjectId = colonProjectId,
+                    ProjectId = finProjectId,
                     OwnerUserId = isubId,
                     AssignedToUserId = ideveId,
-                    Title = "Colon Study Ticket #2",
+                    Title = "Financial Advisor Ticket #2",
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
-                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "High").Id,
+                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
                     TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New/Assigned").Id,
                     TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Defect").Id,
                 },
                 new Ticket
                 {
-                    ProjectId = colonProjectId,
+                    ProjectId = finProjectId,
                     OwnerUserId = isubId,
-                    Title = "Colon Study Ticket #3",
+                    AssignedToUserId = ideveId,
+                    Title = "Financial Advisor Ticket #3",
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
                     TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
-                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "UnAssigned").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "Assigned").Id,
                     TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Feature Request").Id,
                 },
                 new Ticket
                 {
-                    ProjectId = colonProjectId,
+                    ProjectId = finProjectId,
                     OwnerUserId = isubId,
                     AssignedToUserId = ideveId,
-                    Title = "Colon Study Ticket #4",
+                    Title = "Financial Advisor Ticket #4",
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
                     TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Low").Id,
@@ -744,10 +752,10 @@ namespace LConn_BugTracker.Migrations
                 },
                 new Ticket
                 {
-                    ProjectId = colonProjectId,
+                    ProjectId = finProjectId,
                     OwnerUserId = isubId,
                     AssignedToUserId = ideveId,
-                    Title = "Colon Study Ticket #5",
+                    Title = "Financial Advisor Ticket #5",
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
                     TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
@@ -756,35 +764,121 @@ namespace LConn_BugTracker.Migrations
                 },
                 new Ticket
                 {
-                    ProjectId = colonProjectId,
+                    ProjectId = finProjectId,
                     OwnerUserId = isubId,
                     AssignedToUserId = ideveId,
-                    Title = "Colon Study Ticket #6",
+                    Title = "Financial Advisor Ticket #6",
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
-                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Low").Id,
+                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
                     TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "Completed").Id,
                     TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Complaint").Id,
                 },
                 new Ticket
                 {
-                    ProjectId = colonProjectId,
+                    ProjectId = finProjectId,
                     OwnerUserId = isubId,
                     AssignedToUserId = ideveId,
-                    Title = "Colon Study Ticket #7",
+                    Title = "Financial Advisor Ticket #7",
+                    Description = "Testing a seeded Ticket",
+                    Created = DateTime.Now,
+                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Immediate").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "Completed").Id,
+                    TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Defect").Id,
+                },
+
+                //Marketing Evaluation Tickets
+                new Ticket
+                {
+                    ProjectId = marProjectId,
+                    OwnerUserId = asubId,
+                    AssignedToUserId = adeveId,
+                    Title = "Marketing Evaluation Ticket #1",
+                    Description = "Testing a seeded Ticket",
+                    Created = DateTime.Now,
+                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "High").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New/Assigned").Id,
+                    TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Bug").Id,
+                },
+                new Ticket
+                {
+                    ProjectId = marProjectId,
+                    OwnerUserId = asubId,
+                    AssignedToUserId = adeveId,
+                    Title = "Marketing Evaluation Ticket #2",
+                    Description = "Testing a seeded Ticket",
+                    Created = DateTime.Now,
+                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "High").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New/Assigned").Id,
+                    TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Defect").Id,
+                },
+                new Ticket
+                {
+                    ProjectId = marProjectId,
+                    OwnerUserId = asubId,
+                    AssignedToUserId = adeveId,
+                    Title = "Marketing Evaluation Ticket #3",
+                    Description = "Testing a seeded Ticket",
+                    Created = DateTime.Now,
+                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "In Progress").Id,
+                    TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Feature Request").Id,
+                },
+                new Ticket
+                {
+                    ProjectId = marProjectId,
+                    OwnerUserId = asubId,
+                    AssignedToUserId = adeveId,
+                    Title = "Marketing Evaluation Ticket #4",
+                    Description = "Testing a seeded Ticket",
+                    Created = DateTime.Now,
+                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Low").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "Assigned").Id,
+                    TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Documentation Request").Id,
+                },
+                new Ticket
+                {
+                    ProjectId = marProjectId,
+                    OwnerUserId = asubId,
+                    AssignedToUserId = adeveId,
+                    Title = "Marketing Evaluation Ticket #5",
+                    Description = "Testing a seeded Ticket",
+                    Created = DateTime.Now,
+                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "In Progress").Id,
+                    TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Training Request").Id,
+                },
+                new Ticket
+                {
+                    ProjectId = marProjectId,
+                    OwnerUserId = asubId,
+                    AssignedToUserId = adeveId,
+                    Title = "Marketing Evaluation Ticket #6",
+                    Description = "Testing a seeded Ticket",
+                    Created = DateTime.Now,
+                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Low").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "Completed").Id,
+                    TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Other").Id,
+                },
+                new Ticket
+                {
+                    ProjectId = marProjectId,
+                    OwnerUserId = asubId,
+                    AssignedToUserId = adeveId,
+                    Title = "Marketing Evaluation Ticket #7",
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
                     TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "None").Id,
                     TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "Archived").Id,
-                    TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Other").Id,
+                    TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Complaint").Id,
                 },
 
-                //Motor Evaluation Tickets
+                //Widget Sales Tickets
                 new Ticket
                 {
-                    ProjectId = motorProjectId,
-                    OwnerUserId = asubId,
-                    Title = "Motor Evaluation Ticket #1",
+                    ProjectId = widProjectId,
+                    OwnerUserId = demoSubId,
+                    Title = "Widget Sales Ticket #1",
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
                     TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Immediate").Id,
@@ -793,10 +887,10 @@ namespace LConn_BugTracker.Migrations
                 },
                 new Ticket
                 {
-                    ProjectId = motorProjectId,
-                    OwnerUserId = asubId,
-                    AssignedToUserId = adeveId,
-                    Title = "Motor Evaluation Ticket #2",
+                    ProjectId = widProjectId,
+                    OwnerUserId = demoSubId,
+                    AssignedToUserId = demoDevId,
+                    Title = "Widget Sales Ticket #2",
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
                     TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "High").Id,
@@ -805,9 +899,9 @@ namespace LConn_BugTracker.Migrations
                 },
                 new Ticket
                 {
-                    ProjectId = motorProjectId,
-                    OwnerUserId = asubId,
-                    Title = "Motor Evaluation Ticket #3",
+                    ProjectId = widProjectId,
+                    OwnerUserId = demoSubId,
+                    Title = "Widget Sales Ticket #3",
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
                     TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
@@ -816,10 +910,10 @@ namespace LConn_BugTracker.Migrations
                 },
                 new Ticket
                 {
-                    ProjectId = motorProjectId,
-                    OwnerUserId = asubId,
-                    AssignedToUserId = adeveId,
-                    Title = "Motor Evaluation Ticket #4",
+                    ProjectId = widProjectId,
+                    OwnerUserId = demoSubId,
+                    AssignedToUserId = demoDevId,
+                    Title = "Widget Sales Ticket #4",
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
                     TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Low").Id,
@@ -828,10 +922,10 @@ namespace LConn_BugTracker.Migrations
                 },
                 new Ticket
                 {
-                    ProjectId = motorProjectId,
-                    OwnerUserId = asubId,
-                    AssignedToUserId = adeveId,
-                    Title = "Motor Evaluation Ticket #5",
+                    ProjectId = widProjectId,
+                    OwnerUserId = demoSubId,
+                    AssignedToUserId = demoDevId,
+                    Title = "Widget Sales Ticket #5",
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
                     TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
@@ -840,10 +934,10 @@ namespace LConn_BugTracker.Migrations
                 },
                 new Ticket
                 {
-                    ProjectId = motorProjectId,
-                    OwnerUserId = asubId,
-                    AssignedToUserId = adeveId,
-                    Title = "Motor Evaluation Ticket #6",
+                    ProjectId = widProjectId,
+                    OwnerUserId = demoSubId,
+                    AssignedToUserId = demoDevId,
+                    Title = "Widget Sales Ticket #6",
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
                     TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Low").Id,
@@ -852,94 +946,10 @@ namespace LConn_BugTracker.Migrations
                 },
                 new Ticket
                 {
-                    ProjectId = motorProjectId,
-                    OwnerUserId = asubId,
-                    AssignedToUserId = adeveId,
-                    Title = "Motor Evaluation Ticket #7",
-                    Description = "Testing a seeded Ticket",
-                    Created = DateTime.Now,
-                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "None").Id,
-                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "Archived").Id,
-                    TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Other").Id,
-                },
-
-                //Widget Alignment Tickets
-                new Ticket
-                {
-                    ProjectId = widgetProjectId,
-                    OwnerUserId = demoSubId,
-                    Title = "Widget Alignment Ticket #1",
-                    Description = "Testing a seeded Ticket",
-                    Created = DateTime.Now,
-                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Immediate").Id,
-                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New/UnAssigned").Id,
-                    TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Bug").Id,
-                },
-                new Ticket
-                {
-                    ProjectId = widgetProjectId,
+                    ProjectId = widProjectId,
                     OwnerUserId = demoSubId,
                     AssignedToUserId = demoDevId,
-                    Title = "Widget Alignment Ticket #2",
-                    Description = "Testing a seeded Ticket",
-                    Created = DateTime.Now,
-                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "High").Id,
-                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New/Assigned").Id,
-                    TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Defect").Id,
-                },
-                new Ticket
-                {
-                    ProjectId = widgetProjectId,
-                    OwnerUserId = demoSubId,
-                    Title = "Widget Alignment Ticket #3",
-                    Description = "Testing a seeded Ticket",
-                    Created = DateTime.Now,
-                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
-                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "UnAssigned").Id,
-                    TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Feature Request").Id,
-                },
-                new Ticket
-                {
-                    ProjectId = widgetProjectId,
-                    OwnerUserId = demoSubId,
-                    AssignedToUserId = demoDevId,
-                    Title = "Widget Alignment Ticket #4",
-                    Description = "Testing a seeded Ticket",
-                    Created = DateTime.Now,
-                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Low").Id,
-                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "Assigned").Id,
-                    TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Documentation Request").Id,
-                },
-                new Ticket
-                {
-                    ProjectId = widgetProjectId,
-                    OwnerUserId = demoSubId,
-                    AssignedToUserId = demoDevId,
-                    Title = "Widget Alignment Ticket #5",
-                    Description = "Testing a seeded Ticket",
-                    Created = DateTime.Now,
-                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
-                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "In Progress").Id,
-                    TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Training Request").Id,
-                },
-                new Ticket
-                {
-                    ProjectId = widgetProjectId,
-                    OwnerUserId = demoSubId,
-                    AssignedToUserId = demoDevId,
-                    Title = "Widget Alignment Ticket #6",
-                    Description = "Testing a seeded Ticket",
-                    Created = DateTime.Now,
-                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Low").Id,
-                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "Completed").Id,
-                    TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Complaint").Id,
-                },
-                new Ticket
-                {
-                    ProjectId = widgetProjectId,
-                    OwnerUserId = demoSubId,
-                    AssignedToUserId = demoDevId,
-                    Title = "Widget Alignment Ticket #7",
+                    Title = "Widget Sales Ticket #7",
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
                     TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "None").Id,
