@@ -17,6 +17,8 @@ namespace LConn_BugTracker.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         private UserRolesHelper roleHelper = new UserRolesHelper();
         private ProjectsHelper projectHelper = new ProjectsHelper();
+        private NotificationHelper notifHelper = new NotificationHelper();
+        private HistoryHelper historyHelper = new HistoryHelper();
 
         // GET: Projects
         public ActionResult Index()
@@ -79,6 +81,7 @@ namespace LConn_BugTracker.Controllers
         }
 
         // GET: Projects/Edit/5
+        [Authorize(Roles = "ProjectManager, Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -90,6 +93,7 @@ namespace LConn_BugTracker.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.Users = new MultiSelectList(db.Users.ToList(), "Id", "FullName", projectHelper.UsersOnProject(project.Id).Select(u => u.Id));
             return View(project);
         }
 
@@ -98,12 +102,21 @@ namespace LConn_BugTracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Name,Description,Created")] Project project)
+        public ActionResult Edit([Bind(Include = "ID,Name,Description,Created")] Project project, List<string> users)
         {
             if (ModelState.IsValid)
             {
+                var oldProject = db.Projects.AsNoTracking().FirstOrDefault(p => p.Id == project.Id);
+
+                var newProject = db.Projects.Find(project.Id);
+                newProject.Name = project.Name;
+                newProject.Description = project.Description;
+                newProject.Updated = DateTime.Now;
+
+               
                 db.Entry(project).State = EntityState.Modified;
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
             return View(project);

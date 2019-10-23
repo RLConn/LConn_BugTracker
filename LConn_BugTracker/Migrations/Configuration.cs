@@ -878,6 +878,7 @@ namespace LConn_BugTracker.Migrations
                 {
                     ProjectId = widProjectId,
                     OwnerUserId = demoSubId,
+                    AssignedToUserId = demoDevId,
                     Title = "Widget Sales Ticket #1",
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
@@ -901,6 +902,7 @@ namespace LConn_BugTracker.Migrations
                 {
                     ProjectId = widProjectId,
                     OwnerUserId = demoSubId,
+                    AssignedToUserId = demoDevId,
                     Title = "Widget Sales Ticket #3",
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
