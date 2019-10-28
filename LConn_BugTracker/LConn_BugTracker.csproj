@@ -571,6 +571,7 @@
     <Content Include="Views\Demo\StartDemoPage.cshtml" />
     <Content Include="Views\TicketNotifications\MyNotifications.cshtml" />
     <Content Include="Views\Home\Goodbye.cshtml" />
+    <Content Include="Views\Projects\FullIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

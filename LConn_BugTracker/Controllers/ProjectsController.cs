@@ -25,6 +25,13 @@ namespace LConn_BugTracker.Controllers
         {
             return View(db.Projects.ToList());
         }
+        
+        // GET: Projects/Full List
+        [Authorize(Roles = "ProjectManager, Admin")]
+        public ActionResult FullIndex()
+        {
+            return View(db.Projects.ToList());
+        }
 
         // GET: Projects/Details/5
         public ActionResult Details(int? id)
@@ -58,6 +65,7 @@ namespace LConn_BugTracker.Controllers
         }
 
         // GET: Projects/Create
+        [Authorize(Roles = "ProjectManager, Admin")]
         public ActionResult Create()
         {
             return View();

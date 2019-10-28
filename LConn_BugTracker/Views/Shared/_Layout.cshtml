@@ -245,10 +245,11 @@
                         </a>
                         <div class="collapse" id="projs">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index","Projects")">Project Index</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index","Projects")">Assigned Projects</a></li>
                                 @if ((User.IsInRole("Admin")) || (User.IsInRole("ProjectManager")))
                                 {
                                     <li class="nav-item"> <a class="nav-link" href="@Url.Action("Create", "Projects")">Create a Project</a></li>
+                                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("FullIndex","Projects")">Full Project List</a></li>
                                 }
                             </ul>
                         </div>
