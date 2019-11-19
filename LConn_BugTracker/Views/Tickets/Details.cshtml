@@ -181,7 +181,7 @@
 
                                     <div class="form-group">
                                         <div class="col-md-offset-2 col-md-4">
-                                            <input type="submit" value="Submit" class="btn btn-outline-success btn-fw" />
+                                            <input type="submit" value="Submit" class="btn btn-outline-secondary btn-fw" />
                                         </div>
                                     </div>
                                 }
@@ -239,7 +239,95 @@
             <div class="col-md-6 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="icon-pin icon-md"> Attachments</h4>
+                        <i class="icon-pin icon-md"> Attachments @Model.TicketAttachments.Count()</i>
+                        <br />
+                        <div>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                using (Html.BeginForm("Create", "TicketAttachments", FormMethod.Post))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.Hidden("Id", Model.Id)
+                                    @Html.Hidden("TicketId", Model.Id)
+                                    @Html.Hidden("UserId", User.Identity.Name)
+
+                                    <div class="form-group">
+                                        <label for="AttachmentBody">Upload your file(s) for this ticket here</label>
+
+                                        <div class="form-group">
+                                            <label for="Title">Attachment Title</label>
+                                            <input type="text" class="form-control" name="Title">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="Description">Description of Attachment</label>
+                                            <textarea class="form-control" name="Description" rows="2"></textarea>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Attachment to Upload</label>
+                                            <div class="input-group col-xs-12">
+                                                <input type="file" class="form-control file-upload-info" name="AttachmentUrl">
+                                                <span class="input-group-append">
+                                                    <button class="file-upload-browse btn btn-outline-secondary" type="submit">Upload</button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="table-responsive">
+                                        <div id="order-listing wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
+                                            <div class="col-sm-12">
+                                                <table id="order-listing" class="table dataTable table-striped" role="grid" aria-describedby="order-listing_info">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>
+                                                                @Html.DisplayName("Title")
+                                                            </th>
+                                                            <th>
+                                                                @Html.DisplayName("Created")
+                                                            </th>
+                                                            <th>
+                                                                @Html.DisplayName("Description")
+                                                            </th>
+                                                            <th>
+                                                                @Html.DisplayName("Attachment")
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (var attachment in Model.TicketAttachments.OrderByDescending(a => a.Created))
+                                                        {
+                                                            <tr>
+                                                                <td>
+                                                                    @attachment.Title
+                                                                </td>
+                                                                <td>
+                                                                    @attachment.Created.ToString()
+                                                                </td>
+                                                                <td>
+                                                                    <p class="card-text">@attachment.Description</p>
+                                                                </td>
+                                                                    @attachment.AttachmentUrl
+                                                                <td>
+                                                                    @Html.ActionLink("Edit", "Edit", "TicketAttachments", new { id = attachment.Id }, new { @class = "btn btn-sm btn-outline-danger" })
+                                                                </td>
+                                                            </tr>
+
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
                         <div class="row">
                             <div class="col-12">
                                 <div class="table-responsive">

@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using LConn_BugTracker.Helpers;
 using LConn_BugTracker.Models;
+using Microsoft.AspNet.Identity;
 
 namespace LConn_BugTracker.Controllers
 {
@@ -38,29 +41,54 @@ namespace LConn_BugTracker.Controllers
         }
 
         // GET: TicketAttachments/Create
-        public ActionResult Create()
-        {
-            ViewBag.TicketId = new SelectList(db.Tickets, "ID", "OwnerUserId");
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName");
-            return View();
-        }
+        //public ActionResult Create()
+        //{
+        //    ViewBag.TicketId = new SelectList(db.Tickets, "ID", "OwnerUserId");
+        //    ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName");
+        //    return View();
+        //}
 
         // POST: TicketAttachments/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,TicketId,UserId,Title,Description,AttachmentUrl,Created")] TicketAttachment ticketAttachment)
+        public ActionResult Create([Bind(Include = "TicketId")] TicketAttachment ticketAttachment, string attachmentTitle, string attachmentDescription, HttpPostedFileBase attachment)
         {
             if (ModelState.IsValid)
             {
+                ticketAttachment.Title = attachmentTitle;
+                ticketAttachment.Description = attachmentDescription;
+                ticketAttachment.Created = DateTime.Now;
+                ticketAttachment.UserId = User.Identity.GetUserId();
+
+                if (ImageHelper.IsValidAttachment(attachment))
+                {
+                    var fileName = Path.GetFileNameWithoutExtension(attachment.FileName);
+                    var fileExtension = Path.GetExtension(attachment.FileName);
+                    var fileWithDate = $"{fileName}-{DateTime.Now}";
+                    var slugFileName = Utilities.CreateSlug(fileWithDate);
+                    var formattedMedia = $"{slugFileName}{fileExtension}";
+                    attachment.SaveAs(Path.Combine(Server.MapPath("~/Attachments/"), formattedMedia));
+                    ticketAttachment.AttachmentUrl = "/Attachments/" + formattedMedia;
+                }
+                else
+                {
+                    TempData["Message"] = "THIS IS NOT A VALID ATTACHMENT.";
+                    return RedirectToAction("Index", "Tickets", new { id = ticketAttachment.TicketId });
+                }
+
                 db.TicketAttachments.Add(ticketAttachment);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                // Now call the NotificationHelper to send a notification to the developer
+                //notfHelper.NotifyDevTA(ticketAttachment);
+
+                return RedirectToAction("Details", "Tickets", new { id = ticketAttachment.TicketId });
             }
 
-            ViewBag.TicketId = new SelectList(db.Tickets, "ID", "OwnerUserId", ticketAttachment.TicketId);
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", ticketAttachment.UserId);
+            //ViewBag.TicketId = new SelectList(db.Tickets, "ID", "OwnerUserId", ticketAttachment.TicketId);
+            //ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", ticketAttachment.UserId);
             return View(ticketAttachment);
         }
 
