@@ -255,6 +255,8 @@
     <Content Include="Content\morris.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\style.css" />
+    <Content Include="favicon %282%29.ico" />
+    <Content Include="favicon.ico" />
     <Content Include="Fonts\font-awesome.min.css" />
     <Content Include="Fonts\fontawesome-webfont.svg" />
     <Content Include="Fonts\simple-line-icons.css" />
@@ -262,7 +264,6 @@
     <Content Include="Fonts\typicons.css" />
     <Content Include="Fonts\typicons.svg" />
     <Content Include="Content\vendor.bundle.base.css" />
-    <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Avatars\defaultavatar.jpg" />
     <Content Include="Images\doc.png" />

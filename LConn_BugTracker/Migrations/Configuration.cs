@@ -42,6 +42,26 @@ namespace LConn_BugTracker.Migrations
             {
                 roleManager.Create(new IdentityRole { Name = "Submitter" });
             }
+
+            if (!context.Roles.Any(r => r.Name == "DemoAdmin"))
+            {
+                roleManager.Create(new IdentityRole { Name = "DemoAdmin" });
+            }
+
+            if (!context.Roles.Any(r => r.Name == "DemoProjectManager"))
+            {
+                roleManager.Create(new IdentityRole { Name = "DemoProjectManager" });
+            }
+
+            if (!context.Roles.Any(r => r.Name == "DemoDeveloper"))
+            {
+                roleManager.Create(new IdentityRole { Name = "DemoDeveloper" });
+            }
+
+            if (!context.Roles.Any(r => r.Name == "DemoSubmitter"))
+            {
+                roleManager.Create(new IdentityRole { Name = "DemoSubmitter" });
+            }
             #endregion
 
             #region User Creation
@@ -283,12 +303,6 @@ namespace LConn_BugTracker.Migrations
                 }, demoUserPassword);
             }
 
-            
-
-            
-
-            
-
             #endregion
 
             #region Role Assignment
@@ -336,16 +350,16 @@ namespace LConn_BugTracker.Migrations
 
             //Demo Role Assignment
             var demoAdminId = userManager.FindByEmail("DemoAdmin@Mailinator.com").Id;
-            userManager.AddToRole(demoAdminId, "Admin");
+            userManager.AddToRole(demoAdminId, "DemoAdmin");
 
             var demoProjId = userManager.FindByEmail("DemoProjectManager@Mailinator.com").Id;
-            userManager.AddToRole(demoProjId, "ProjectManager");
+            userManager.AddToRole(demoProjId, "DemoProjectManager");
 
             var demoSubId = userManager.FindByEmail("DemoSubmitter@Mailinator.com").Id;
-            userManager.AddToRole(demoSubId, "Submitter");
+            userManager.AddToRole(demoSubId, "DemoSubmitter");
 
             var demoDevId = userManager.FindByEmail("DemoDeveloper@Mailinator.com").Id;
-            userManager.AddToRole(demoDevId, "Developer");
+            userManager.AddToRole(demoDevId, "DemoDeveloper");
 
             #endregion
 

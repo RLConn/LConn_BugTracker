@@ -11,14 +11,14 @@ namespace LConn_BugTracker.Helpers
 {
     public class NotificationHelper : CommonHelper
     {
-        public void ManageNotifications(Ticket oldTicket, Ticket newTicket)
+        public static void ManageNotifications(Ticket oldTicket, Ticket newTicket)
         {
             CreateAssignmentNotification(oldTicket, newTicket);
             CreateChangeNotification(oldTicket, newTicket);
         }
 
         #region Assignment notification management
-        private void CreateAssignmentNotification(Ticket oldTicket, Ticket newTicket)
+        private static void CreateAssignmentNotification(Ticket oldTicket, Ticket newTicket)
         {
             //4 Cases
             //1. No Change
@@ -44,7 +44,7 @@ namespace LConn_BugTracker.Helpers
             }
         }
 
-        private void GenerateUnAssignmentNotification(Ticket oldTicket, Ticket newTicket)
+        private static void GenerateUnAssignmentNotification(Ticket oldTicket, Ticket newTicket)
         {
             var notification = new TicketNotification
             {
@@ -62,7 +62,7 @@ namespace LConn_BugTracker.Helpers
         }
 
 
-        private void GenerateAssignmentNotification(Ticket oldTicket, Ticket newTicket)
+        private static void GenerateAssignmentNotification(Ticket oldTicket, Ticket newTicket)
         {
             var notification = new TicketNotification
             {
@@ -81,14 +81,14 @@ namespace LConn_BugTracker.Helpers
         #endregion
 
         #region Change notification management
-        private void CreateChangeNotification(Ticket oldTicket, Ticket newTicket)
+        private static void CreateChangeNotification(Ticket oldTicket, Ticket newTicket)
         {
             var messageBody = new StringBuilder();
 
             foreach (var property in WebConfigurationManager.AppSettings["TrackedTicketProperties"].Split(','))
             {
-                var oldValue = Utilities.MakeReadable(property, oldTicket.GetType().GetProperty(property).GetValue(oldTicket, null).ToString());
-                var newValue = Utilities.MakeReadable(property, newTicket.GetType().GetProperty(property).GetValue(newTicket, null).ToString());
+                var oldValue = oldTicket.GetType().GetProperty(property).GetValue(oldTicket, null);
+                var newValue = newTicket.GetType().GetProperty(property).GetValue(newTicket, null);
 
                 if (oldValue != newValue)
                 {
@@ -102,7 +102,7 @@ namespace LConn_BugTracker.Helpers
             if (!string.IsNullOrEmpty(messageBody.ToString()))
             {
                 var message = new StringBuilder();
-                message.AppendLine($"Changes were made to Ticket Id: {newTicket.Id} on {newTicket.Updated.GetValueOrDefault().ToString("MMM d, yyy")}");
+                message.AppendLine($"The following changes were made to one of your tickets on {newTicket.Updated}");
                 message.AppendLine(messageBody.ToString());
                 var senderId = HttpContext.Current.User.Identity.GetUserId();
 
@@ -110,8 +110,8 @@ namespace LConn_BugTracker.Helpers
                 {
                     TicketId = newTicket.Id,
                     Created = DateTime.Now,
-                    Subject = $"Ticket Id: {newTicket.Id} has changed",
-                    RecipientId = oldTicket.AssignedToUserId,
+                    Subject = $"A change has occurred on Ticket {newTicket.Id}",
+                    RecipientId = newTicket.AssignedToUserId,
                     SenderId = senderId,
                     NotificationBody = message.ToString(),
                     IsRead = false

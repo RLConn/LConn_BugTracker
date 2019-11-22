@@ -127,31 +127,15 @@ namespace LConn_BugTracker.Controllers
             {
                 //This represents the Ticket before it is actually changed and stored to SQL...'oldTicket'
                 var oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
-
-                var newTicket = db.Tickets.Find(ticket.Id);
-                newTicket.TicketStatusId = ticket.TicketStatusId;
-                newTicket.TicketTypeId = ticket.TicketTypeId;
-                newTicket.TicketPriorityId = ticket.TicketPriorityId;
-                newTicket.AssignedToUserId = ticket.AssignedToUserId;
-                newTicket.Title = ticket.Title;
-                newTicket.Description = ticket.Description;
-                newTicket.Updated = DateTime.Now;
-
-                var noChange = (oldTicket.AssignedToUserId == newTicket.AssignedToUserId);
-                var assignment = (string.IsNullOrEmpty(oldTicket.AssignedToUserId));
-                var unassignment = (string.IsNullOrEmpty(newTicket.AssignedToUserId));
-
-                var ActiveStatusId = db.TicketStatuses.FirstOrDefault(ts => ts.Name == "Assigned").Id;
-                var InactiveStatusId = db.TicketStatuses.FirstOrDefault(ts => ts.Name == "UnAssigned").Id;
-
-                if (assignment) newTicket.TicketStatusId = ActiveStatusId;
-                if (unassignment) newTicket.TicketStatusId = InactiveStatusId;
-
+                
+                ticket.Updated = DateTime.Now;
                 db.Entry(ticket).State = EntityState.Modified;
                 db.SaveChanges();
 
+                
+
                 //Calling the NotificationHelper to determine if a Notification needs to be created
-                notifHelper.ManageNotifications(oldTicket, ticket);
+                NotificationHelper.ManageNotifications(oldTicket, ticket);
 
                 //I will be looking here for Tcket changes (ticket = newTicket)
                 historyHelper.RecordHistory(oldTicket, ticket);

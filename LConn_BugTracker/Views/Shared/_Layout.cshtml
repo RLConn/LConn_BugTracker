@@ -38,7 +38,7 @@
     <link rel="stylesheet" href="~/Content/morris.css" />
     <link rel="stylesheet" href="~/Content/c3.min.css" />
     <!-- endinject -->
-    <link rel="shortcut icon" href="~/Images/favicon-96x96.png" />
+    <link rel="shortcut icon" href="~/favicon (2).ico" />
 </head>
 <body>
     <div class="container-scroller">
@@ -74,22 +74,22 @@
                     <li class="nav-item dropdown d-flex">
                         <a class="nav-link count-indicator dropdown-toggle d-flex justify-content-center align-items-center" id="messageDropdown" href="#" data-toggle="dropdown">
                             <i class="icon-bell"></i>
-                            <span class="count bg-success">@NotificationHelper.GetAllUserNoticationCount()</span>
+                            <span class="count bg-success">@NotificationHelper.GetNewUserNotificationCount()</span>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="messageDropdown">
-                            <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
+
+                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="messageDropdown">
+                            <span class="mb-0 font-weight-normal float-left dropdown-header">@NotificationHelper.GetAllUserNoticationCount() Notifications</span>
                             <div class="preview-item-content flex-grow">
                                 <ul>
                                     @foreach (var notification in NotificationHelper.GetUnreadUserNotifications())
                                     {
                                         <li>
-                                            <hr size=3 />
                                             @using (Html.BeginForm("MarkAsRead", "TicketNotifications"))
                                             {
                                                 @Html.AntiForgeryToken()
                                                 @Html.Hidden("Id", notification.Id)
                                                 <div class="row">
-                                                    <div class="col-md-2">
+                                                    <div class="col-md-3">
                                                         <figure class="image">
                                                             <img src="@notification.Sender.AvatarUrl" alt="@notification.Sender.Email" class="img-circle" width="25" />
                                                         </figure>
@@ -107,7 +107,7 @@
                                                 <br />
                                                 <div class="row">
                                                     <div class="col-md-12 text-center">
-                                                        <button type="submit" class="btn btn-sm btn-outline-primary">Mark as read</button>
+                                                        <button type="submit" class="btn btn-sm btn-outline-primary">Mark as Read</button>
                                                     </div>
                                                 </div>
                                             }
@@ -117,7 +117,7 @@
                                 <hr />
                                 <div class="form-group text-right">
                                     <div class="btn btn-sm btn-outline-secondary btn-fw">
-                                        <a href="@Url.Action("MyNotifications", "TicketNotifications")" class="view-more">View All</a>
+                                        <a href="@Url.Action("Index", "TicketNotifications")" class="view-more">View All</a>
                                     </div>
                                 </div>
                             </div>
@@ -173,7 +173,7 @@
                 </div>
 
                 <ul class="nav">
-                    @if (User.IsInRole("Admin"))
+                    @if ((User.IsInRole("Admin")) || (User.IsInRole("DemoAdmin")))
                     {
                         <li class="nav-item">
                             <a class="nav-link" href="#">
@@ -183,7 +183,7 @@
                         </li>
                     }
 
-                    @if (User.IsInRole("ProjectManager"))
+                    @if ((User.IsInRole("ProjectManager")) || (User.IsInRole("DemoProjectManager")))
                     {
                         <li class="nav-item">
                             <a class="nav-link" href="#">
@@ -193,7 +193,7 @@
                         </li>
                     }
 
-                    @if (User.IsInRole("Developer"))
+                    @if ((User.IsInRole("Developer")) || (User.IsInRole("DemoDeveloper")))
                     {
                         <li class="nav-item">
                             <a class="nav-link" href="#">
@@ -203,7 +203,7 @@
                         </li>
                     }
 
-                    @if (User.IsInRole("Submitter"))
+                    @if ((User.IsInRole("Submitter")) || (User.IsInRole("DemoSubmitter")))
                     {
                         <li class="nav-item">
                             <a class="nav-link" href="#">
@@ -220,7 +220,7 @@
                         </a>
                     </li>
 
-                    @if (User.IsInRole("Admin"))
+                    @if ((User.IsInRole("Admin")) || (User.IsInRole("DemoAdmin")))
                     {
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="collapse" href="#admin" aria-expanded="false" aria-controls="admin">
@@ -246,7 +246,7 @@
                         <div class="collapse" id="projs">
                             <ul class="nav flex-column sub-menu">
                                 <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index","Projects")">Assigned Projects</a></li>
-                                @if ((User.IsInRole("Admin")) || (User.IsInRole("ProjectManager")))
+                                @if ((User.IsInRole("Admin")) || (User.IsInRole("ProjectManager")) || (User.IsInRole("DemoAdmin")) || (User.IsInRole("DemoProjectManager")))
                                 {
                                     <li class="nav-item"> <a class="nav-link" href="@Url.Action("Create", "Projects")">Create a Project</a></li>
                                     <li class="nav-item"> <a class="nav-link" href="@Url.Action("FullIndex","Projects")">Full Project List</a></li>
@@ -263,8 +263,9 @@
                         </a>
                         <div class="collapse" id="ticks">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index","Tickets")">Ticket List</a></li>
-                                @if (User.IsInRole("Submitter"))
+                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index","Tickets")">All Tickets</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("MyTickets","Tickets")">My Tickets</a></li>
+                                @if ((User.IsInRole("Submitter")) || (User.IsInRole("DemoSubmitter")))
                                 {
                                     <li class="nav-item"> <a class="nav-link" href="@Url.Action("Create", "Tickets")">Create a Ticket</a></li>
                                 }
@@ -284,7 +285,7 @@
                     </li>
                     <li class="nav-item"><a href="@Url.Action("Index","Tickets")" class="nav-link">Tickets</a></li>
                     <li class="nav-item"><a href="@Url.Action("Index","Projects")" class="nav-link">Projects</a></li>
-                    @if (User.IsInRole("Admin"))
+                    @if ((User.IsInRole("Admin")) || (User.IsInRole("DemoAdmin")))
                     {
                         <li class="nav-item"><a href="@Url.Action("UserIndex","Admin")" class="nav-link">Users</a></li>
                     }

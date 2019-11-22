@@ -33,13 +33,14 @@ namespace LConn_BugTracker.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult MarkAsRead(int id)
         {
             var notification = db.TicketNotifications.Find(id);
             notification.IsRead = true;
             db.SaveChanges();
 
-            return RedirectToAction("Dashboard", "Home");
+            return RedirectToAction("Index");
         }
 
 
